@@ -1,4 +1,4 @@
-﻿namespace UcsCrudV1
+﻿namespace EvangelionERP
 {
     public static class Settings
     {

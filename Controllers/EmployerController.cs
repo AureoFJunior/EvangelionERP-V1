@@ -2,10 +2,10 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
-using UcsCrudV1.Data;
-using UcsCrudV1.Models;
+using EvangelionERP.Data;
+using EvangelionERP.Models;
 
-namespace UcsCrudV1.Controllers
+namespace EvangelionERP.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

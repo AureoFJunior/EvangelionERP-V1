@@ -1,4 +1,4 @@
-﻿using UcsCrudV1.Models;
+﻿using EvangelionERP.Models;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace UcsCrudV1.Services
+namespace EvangelionERP.Services
 {
     public static class TokenHelper
     {

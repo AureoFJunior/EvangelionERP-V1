@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace UcsCrudV1.Models
+namespace EvangelionERP.Models
 {
     [Table(name: "tab_products")]
     public class ProductModel

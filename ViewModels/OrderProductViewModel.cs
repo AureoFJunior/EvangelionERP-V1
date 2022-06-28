@@ -3,7 +3,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace UcsCrudV1.Models
+namespace EvangelionERP.Models
 {
     public class OrderProductViewModel
     {

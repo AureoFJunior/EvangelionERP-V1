@@ -12,13 +12,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using UcsCrudV1.Data;
-using UcsCrudV1.Services;
+using EvangelionERP.Data;
+using EvangelionERP.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 
-namespace UcsCrudV1
+namespace EvangelionERP
 {
     public class Startup
     {

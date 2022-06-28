@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
-using UcsCrudV1.Data;
-using UcsCrudV1.Models;
+using EvangelionERP.Data;
+using EvangelionERP.Models;
 using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
 using Microsoft.AspNetCore.Http;
@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using UcsCrudV1.Services;
+using EvangelionERP.Services;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authorization;
 
-namespace UcsCrudV1.Controllers
+namespace EvangelionERP.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
