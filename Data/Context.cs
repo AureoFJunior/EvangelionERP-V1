@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using UcsCrudV1.Models;
+using EvangelionERP.Models;
 
-namespace UcsCrudV1.Data
+namespace EvangelionERP.Data
 {
     public class Context : DbContext
     {

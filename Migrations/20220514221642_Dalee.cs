@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace UcsCrudV1.Migrations
+namespace EvangelionERP.Migrations
 {
     public partial class Dalee : Migration
     {

@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace UcsCrudV1
+namespace EvangelionERP
 {
     public class Program
     {

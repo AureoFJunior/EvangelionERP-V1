@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using UcsCrudV1.Data;
+using EvangelionERP.Data;
 
-namespace UcsCrudV1.Migrations
+namespace EvangelionERP.Migrations
 {
     [DbContext(typeof(Context))]
     [Migration("20220516155734_Toma madera")]
@@ -21,7 +21,7 @@ namespace UcsCrudV1.Migrations
                 .HasAnnotation("ProductVersion", "5.0.13")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("UcsCrudV1.Models.CustomerModel", b =>
+            modelBuilder.Entity("EvangelionERP.Models.CustomerModel", b =>
                 {
                     b.Property<int>("Cod")
                         .ValueGeneratedOnAdd()
@@ -45,7 +45,7 @@ namespace UcsCrudV1.Migrations
                     b.ToTable("tab_customer");
                 });
 
-            modelBuilder.Entity("UcsCrudV1.Models.EmployerModel", b =>
+            modelBuilder.Entity("EvangelionERP.Models.EmployerModel", b =>
                 {
                     b.Property<int>("Cod")
                         .ValueGeneratedOnAdd()
@@ -72,7 +72,7 @@ namespace UcsCrudV1.Migrations
                     b.ToTable("tab_employer");
                 });
 
-            modelBuilder.Entity("UcsCrudV1.Models.OrderModel", b =>
+            modelBuilder.Entity("EvangelionERP.Models.OrderModel", b =>
                 {
                     b.Property<int>("Cod")
                         .ValueGeneratedOnAdd()
@@ -99,7 +99,7 @@ namespace UcsCrudV1.Migrations
                     b.ToTable("tab_order");
                 });
 
-            modelBuilder.Entity("UcsCrudV1.Models.OrderProductModel", b =>
+            modelBuilder.Entity("EvangelionERP.Models.OrderProductModel", b =>
                 {
                     b.Property<int>("Cod")
                         .ValueGeneratedOnAdd()
@@ -130,7 +130,7 @@ namespace UcsCrudV1.Migrations
                     b.ToTable("tab_orders_itens");
                 });
 
-            modelBuilder.Entity("UcsCrudV1.Models.ProductModel", b =>
+            modelBuilder.Entity("EvangelionERP.Models.ProductModel", b =>
                 {
                     b.Property<int>("Cod")
                         .ValueGeneratedOnAdd()
@@ -148,7 +148,7 @@ namespace UcsCrudV1.Migrations
                     b.ToTable("tab_products");
                 });
 
-            modelBuilder.Entity("UcsCrudV1.Models.UserModel", b =>
+            modelBuilder.Entity("EvangelionERP.Models.UserModel", b =>
                 {
                     b.Property<int>("Cod")
                         .ValueGeneratedOnAdd()
@@ -187,15 +187,15 @@ namespace UcsCrudV1.Migrations
                     b.ToTable("tab_user");
                 });
 
-            modelBuilder.Entity("UcsCrudV1.Models.OrderProductModel", b =>
+            modelBuilder.Entity("EvangelionERP.Models.OrderProductModel", b =>
                 {
-                    b.HasOne("UcsCrudV1.Models.OrderModel", "Order")
+                    b.HasOne("EvangelionERP.Models.OrderModel", "Order")
                         .WithMany("OrderProductModel")
                         .HasForeignKey("OrderCod")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("UcsCrudV1.Models.ProductModel", "Product")
+                    b.HasOne("EvangelionERP.Models.ProductModel", "Product")
                         .WithMany("OrderProductModel")
                         .HasForeignKey("ProductCod")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -206,12 +206,12 @@ namespace UcsCrudV1.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("UcsCrudV1.Models.OrderModel", b =>
+            modelBuilder.Entity("EvangelionERP.Models.OrderModel", b =>
                 {
                     b.Navigation("OrderProductModel");
                 });
 
-            modelBuilder.Entity("UcsCrudV1.Models.ProductModel", b =>
+            modelBuilder.Entity("EvangelionERP.Models.ProductModel", b =>
                 {
                     b.Navigation("OrderProductModel");
                 });
