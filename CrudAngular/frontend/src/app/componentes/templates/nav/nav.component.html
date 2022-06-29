@@ -1,0 +1,67 @@
+<mat-sidenav-container class="container">
+    <mat-sidenav class="sidenav" mode="side" opened fixedInViewport="true" fixedTopGap="64">
+        <mat-nav-list class="nav-list">
+
+            <span>
+                <!-- Logo do Site -->
+                <a>
+                    <img src="../assets/evaLogo.png" alt="logo" class="logo">
+                </a>
+            </span>
+
+            <!-- Itens do menu lateral -->
+            <a mat-list-item routerLink="/home">
+                <i class="material-icons">
+                    home
+                </i>
+                Início
+            </a>
+            <a mat-list-item routerLink="/products"> 
+                <i class="material-icons">
+                    storefront
+                </i>
+                Produtos
+            </a>
+            <a mat-list-item routerLink="/orders"> 
+                <i class="material-icons">
+                    assignment
+                </i>
+                Pedidos
+            </a>
+            <a mat-list-item routerLink="/employers"> 
+                <i class="material-icons">
+                    emoji_people
+                </i>
+                Funcionários
+            </a>
+            <a mat-list-item routerLink="/showcase"> 
+                <i class="material-icons">
+                    widgets
+                </i>
+                Mostruário
+            </a>
+
+            <span class="title-group">
+                <a mat-list-item routerLink="/profile">
+                    <i class="material-icons">
+                        account_circle
+                    </i>
+                    Perfil
+                </a>
+            </span>
+
+            <span>
+            <a mat-list-item routerLink="/"> 
+                <i class="material-icons">
+                    logout
+                </i>
+                Sair
+            </a>
+            </span>
+            
+        </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content class="content">
+        <router-outlet></router-outlet> <!-- Aqui fica as rotas -->
+    </mat-sidenav-content>
+</mat-sidenav-container>

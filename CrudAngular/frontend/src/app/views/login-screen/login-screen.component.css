@@ -1,0 +1,20 @@
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+button {
+    margin: 20px 10px 0px 0px;
+}
+
+.home {
+    width: 35%;
+    text-align: center;
+    margin: auto;
+    margin-top: 100px;
+    padding: 10px;
+}
+
+.forget {
+    float: right;
+}

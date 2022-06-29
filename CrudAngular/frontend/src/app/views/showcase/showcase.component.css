@@ -1,0 +1,15 @@
+.home {
+    width: 75%;
+    text-align: center;
+    margin: auto;
+    padding: 10px;
+    overflow: hidden;
+}
+
+.main {
+    width: 100%;
+    text-align: left;
+    margin: auto;
+    padding: 0px;
+    overflow: hidden;
+}

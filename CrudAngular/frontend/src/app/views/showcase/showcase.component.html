@@ -1,0 +1,17 @@
+<app-footer></app-footer>
+<app-nav></app-nav>
+
+<link rel="stylesheet" href="/CrudAngular/frontend/src/styles.css">
+<link rel="stylesheet" href="showcase.component.css">
+
+
+<script type="text/javascript" src="showcase.component.jquery.js"></script>
+<script type="text/javascript" src="showcase.component.lightslider.js"></script>
+
+<div class="main">
+    <mat-card class="home mat-elevation-z4">
+        <ng-image-slider [images]="imgCollection" #nav></ng-image-slider>
+        <ng-image-slider [images]="imgCollection2" #nav></ng-image-slider>
+        <ng-image-slider [images]="imgCollection3" #nav></ng-image-slider>
+</mat-card>
+</div>

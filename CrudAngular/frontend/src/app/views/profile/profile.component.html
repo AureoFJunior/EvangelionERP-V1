@@ -1,0 +1,36 @@
+<app-footer></app-footer>
+<app-nav></app-nav>
+
+<div class="main">
+    <mat-card class="home mat-elevation-z4">
+        <mat-card-title class="title">
+            Perfil
+        </mat-card-title>
+        
+        <div mat-card-avatar class="example-header-image">
+            <div type="file" mat-card-avatar class="blackCircle">
+                <img [src]="user.profilePicture" class="example-header-image">
+            </div>
+        </div>
+        <input id="filePath" type="file" name="file" ng-model="user.profilePicture" (change)="handleFileInput($event.target)">
+        <form>
+    
+            <!-- Campo do nome -->
+    
+            <mat-form-field>
+                <input matInput placeholder="Nome Completo" [(ngModel)]="user.fullName" name="fullName" readonly>
+            </mat-form-field>
+
+            <mat-form-field>
+                <input matInput placeholder="Telefone" [(ngModel)]="user.mobile" name="mobile" mask="(00) 00000-0000" readonly>
+            </mat-form-field>
+
+            <mat-form-field>
+                <input matInput placeholder="Email" [(ngModel)]="user.email" name="email" readonly>
+            </mat-form-field>
+            
+            <!-- Campo da senha -->
+        </form>
+    
+</mat-card>
+</div>

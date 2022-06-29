@@ -1,0 +1,33 @@
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+button {
+    margin: 20px 10px 0px 0px;
+}
+
+.main {
+    width: 75%;
+    text-align: left;
+    margin: auto;
+    padding: 10px;
+    color: white;
+}
+
+input {
+    background-color: #1b1e1f;
+}
+
+form {
+    background-color: #1b1e1f;
+}
+
+
+button {
+    background-color: white;
+}
+
+.placeholder {
+    color: white;
+}

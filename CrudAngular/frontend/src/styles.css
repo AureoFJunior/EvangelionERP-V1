@@ -1,0 +1,38 @@
+/* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body {
+     margin-top: 50px;
+     margin-bottom: 0px;
+     margin-left: 0px;
+     margin-right: 0px;
+     font-family: Roboto, "Helvetica Neue", sans-serif;
+    }
+
+.red {
+    color: rgb(227, 94, 107);
+}
+
+.erro {
+    color: white;
+    background-color: rgb(240, 64, 64);
+}
+
+.sucesso {
+    color: white;
+    background-color: rgb(12, 177, 12);
+}
+
+.atencao {
+    color: white;
+    background-color: rgb(243, 168, 30);
+}
+
+body {
+    background-color: #202020;
+}
+
+.main {
+    background-color: #202020;
+    color: #566063;
+}

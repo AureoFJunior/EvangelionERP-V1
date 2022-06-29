@@ -1,0 +1,80 @@
+<app-footer></app-footer>
+<app-nav></app-nav>
+<div class="main mat-elevation-z8">
+  <form [formGroup]="form" autocomplete="on">
+  <mat-card-title>
+    Novo Pedido
+  </mat-card-title>
+  <ng-container formArrayName="products">
+    <table mat-table [dataSource]="products.controls">
+      <!-- Coluna do ID (Vulgo Cod) -->
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef> Cod </th>
+        <td mat-cell *matCellDef="let row;">{{row.get('cod').value}}</td>
+        <td mat-footer-cell *matFooterCellDef></td>
+      </ng-container>
+  
+      <!-- Coluna do nome -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> Nome </th>
+        <td mat-cell *matCellDef="let row">{{row.get('name').value}}</td>
+        <td mat-footer-cell *matFooterCellDef></td>
+      </ng-container>
+  
+      <!-- Coluna da quantidade -->
+      <ng-container matColumnDef="quantity">
+        <th mat-header-cell *matHeaderCellDef> Quantidade (UN) </th>
+        <td mat-cell *matCellDef="let row;" [formGroup]="row">
+          <mat-form-field floatLabel="never">
+            <input matInput type="number" formControlName="quantity" (change)="att()">
+          </mat-form-field>
+        </td>
+        <td mat-footer-cell *matFooterCellDef> Total (R$)</td>
+      </ng-container>
+
+      <!-- Coluna do preço -->
+      <ng-container matColumnDef="price">
+        <th mat-header-cell *matHeaderCellDef> Preço (R$)</th>
+        <td mat-cell *matCellDef="let row;" [formGroup]="row">
+          <mat-form-field floatLabel="never">
+            <input matInput type="number" formControlName="price">
+          </mat-form-field>
+        </td>
+
+        <td mat-footer-cell *matFooterCellDef> {{ data }} </td>
+      </ng-container>
+
+      <!-- Algumas definições da table -->
+      
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
+    </table>
+  </ng-container>
+  </form>
+
+  
+</div>
+
+<div class="botoes">
+  <button mat-raised-button (click)="cancel()" color="">
+    Cancelar
+  </button>
+    <button mat-raised-button (click)="clean()" color="">
+      Novo
+    </button>
+    <button mat-raised-button (click)="create()" color="warn">
+      Gravar
+  </button>
+</div>
+
+<div class="selectOutput">
+  <mat-form-field floatLabel="never">
+    <select matNativeControl class="selectOutput" [(ngModel)]="output" required>
+      <option [ngValue]=true>Saída</option>
+      <option  [ngValue]=false>Entrada</option>
+    </select>
+  </mat-form-field>
+</div>
+  
+  

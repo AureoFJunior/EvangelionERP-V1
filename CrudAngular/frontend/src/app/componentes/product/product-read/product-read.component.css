@@ -1,0 +1,40 @@
+table {
+    width: 100%;
+}
+
+.edit {
+    margin-right: 7px;
+}
+
+.edit > i {
+    color: #d9cd26;
+}
+
+.main {
+    width: 75%;
+    text-align: left;
+    margin: auto;
+    padding: 10px;
+    color: white;
+}
+
+table {
+    background-color: #1b1e1f;
+}
+
+th {
+   color: #ffffff;
+}
+
+td {
+   color: #ffffff;
+}
+
+.edit .material-icons {
+    color: #e9682c;
+}
+
+.paginator {
+    background-color: #1b1e1f;
+    color: white;
+}

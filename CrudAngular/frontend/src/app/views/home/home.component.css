@@ -1,0 +1,32 @@
+.home .title {
+    font-size: 3rem;
+    font-weight: 300;
+    line-height: 1.2;
+    color: white;
+}
+
+.home .subtitle {
+    font-size: 1.1rem;
+    
+    color: white;
+}
+
+.home {
+    width: 75%;
+    text-align: left;
+    margin: auto;
+    padding: 10px;
+    background-color: #1b1e1f;
+}
+/*
+.home {
+    margin-top: -40px;
+}
+*/
+.home .title .subtitle {
+    margin-top: -50px;
+}
+
+.home .title .subtitle {
+    background-color: #1b1e1f;
+}

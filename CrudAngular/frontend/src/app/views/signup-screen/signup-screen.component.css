@@ -1,0 +1,36 @@
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+button {
+    margin: 20px 10px 0px 0px;
+}
+
+.home {
+    width: 35%;
+    text-align: center;
+    margin: auto;
+    margin-top: 100px;
+    padding: 10px;
+}
+
+.mat-radio-button ~ .mat-radio-button {
+    margin-left: 16px;
+}
+
+.required {
+    text-align: center;
+}
+
+mat-radio-group {
+    display: flex;
+    text-align: left;
+    padding: 5px;
+}
+
+.titulo {
+    text-align: left;
+    margin-right: 9px;
+    padding: 1px;
+}

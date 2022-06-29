@@ -1,0 +1,35 @@
+<div class="container">
+    <mat-card class="home mat-elevation-z4">
+        <mat-card-title class="title">
+            Login
+        </mat-card-title>
+    
+        <form>
+    
+            <!-- Campo do nome -->
+    
+            <mat-form-field>
+                <input matInput placeholder="Nome de Usuário" [(ngModel)]="user.userName" name="userName" required>
+            </mat-form-field>
+    
+            <!-- Campo da senha -->
+    
+            <mat-form-field>
+                <input matInput placeholder="Senha" [(ngModel)]="user.password" name="password" [type]="hide ? 'password' : 'text'" required>
+                <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                    <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                  </button>
+            </mat-form-field>
+        </form>
+    
+        
+        <!-- Botão de login -->
+        <button mat-raised-button (click)="login()" color="warn"> Entrar </button>
+    
+        <!-- Botão de criação do usuário -->
+        <button mat-raised-button (click)="signup()" color=""> Registre-se </button>
+
+        <a routerLink="/signup" class="forget">Esqueci minha senha</a>
+    
+    </mat-card>
+</div>

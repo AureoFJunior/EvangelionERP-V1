@@ -1,0 +1,41 @@
+<app-footer></app-footer>
+<app-nav></app-nav>
+<mat-card class="main">
+    <mat-card-title>
+        Edição de Funcionário
+    </mat-card-title>
+
+    <!-- Formulário para editar o funcionário -->
+
+    <form>
+
+        <mat-form-field>
+            <input matInput placeholder="Nome" [(ngModel)]="employer.firstName" name="firstName" required>
+        </mat-form-field>
+
+        <mat-form-field>
+            <input matInput placeholder="Sobrenome" [(ngModel)]="employer.lastName" name="lastName" required>
+        </mat-form-field>
+
+        <mat-form-field>
+            <input matInput placeholder="Salário (R$)" [(ngModel)]="employer.salary" name="salary">
+        </mat-form-field>
+
+        <mat-form-field>
+            <input matInput placeholder="Telefone" [(ngModel)]="employer.mobile" name="mobile">
+        </mat-form-field>
+
+        <mat-form-field>
+            <input matInput placeholder="Email" [(ngModel)]="employer.email" name="email">
+        </mat-form-field>
+
+    </form>
+
+    <!-- Botão de edição do funcionário -->
+
+    <button mat-raised-button (click)="updateEmployer()" color="warn"> Salvar </button>
+
+    <!-- Botão para cancelar a operação -->
+
+    <button mat-raised-button (click)="cancel()"> Cancelar </button>
+</mat-card>

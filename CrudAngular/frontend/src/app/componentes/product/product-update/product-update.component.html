@@ -1,0 +1,21 @@
+<app-footer></app-footer>
+<app-nav></app-nav>
+<mat-card class="main">
+    <mat-card-title>
+        Edição de produto
+    </mat-card-title>
+    <form>
+        <mat-form-field>
+            <input matInput [(ngModel)]="product.name" name="name" required>
+            <mat-placeholder class="placeholder">Nome</mat-placeholder>
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput type="number" [(ngModel)]="product.price" name="price">
+            <mat-placeholder class="placeholder">Preço (R$)</mat-placeholder>
+        </mat-form-field>
+    </form>
+    <button mat-raised-button (click)="updateProduct()" color="warn"> Salvar </button>
+    <button mat-raised-button (click)="cancel()"> Cancelar </button>
+</mat-card>
+
+

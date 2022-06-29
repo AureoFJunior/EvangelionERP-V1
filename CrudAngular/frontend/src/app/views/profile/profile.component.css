@@ -1,0 +1,51 @@
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+button {
+    margin: 20px 10px 0px 0px;
+}
+
+.home {
+    width: 35%;
+    text-align: center;
+    margin: auto;
+    margin-top: 100px;
+    padding: 10px;
+}
+
+.main {
+    width: 75%;
+    text-align: left;
+    margin: auto;
+    padding: 10px;
+}
+
+.example-header-image {
+    background-size: cover;
+    border-radius: 50%;
+    width: 200px;
+    height: 200px;
+    margin: auto;
+}
+
+.main .home .example-header-image:hover {
+    opacity: 0.75;
+}
+
+.blackCircle {
+    opacity: 1;
+    background-color: black;
+    background-size: cover;
+    border-radius: 50%;
+    width: 200px;
+    height: 200px;
+    margin: auto;
+}
+
+.blackCircle:hover {
+    opacity: 1;
+    cursor: pointer;
+    transition: ease-out;
+}

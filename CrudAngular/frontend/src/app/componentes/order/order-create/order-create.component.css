@@ -1,0 +1,36 @@
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+.botoes {
+    margin-right: 195px;
+}
+
+button {
+    margin-top: 30px;
+    margin-right: 5px;
+    float: right;
+}
+
+.main {
+    width: 75%;
+    text-align: left;
+    margin: auto;
+    padding: 10px;
+}
+
+table {
+    width: 100%;
+}
+
+.selectOutput {
+    font-size: large;
+    font-weight: bold;
+    color: white;
+    background-color: #1b1e1f;
+    float: right;
+    margin-top: 7px;
+    margin-right: 5px;
+}
+

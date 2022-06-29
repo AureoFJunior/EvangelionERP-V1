@@ -1,0 +1,47 @@
+.sidenav {
+    background-color: #1A1A1A;
+    width: 10rem;
+    margin-top: -70px;
+}
+
+.sidenav a {
+    color: #fdfdfd;
+}
+
+.sidenav i {
+    padding-right: 10px;
+}
+
+/*
+.content {
+    padding: 16px;
+    background-color: #31332C;
+}
+
+/*
+.sidenav a {
+    background-color: #d65e48;
+    z-index: -1;
+}
+*/
+
+.a:hover {
+    background-color: #E53D00;
+    width: 0;
+    height: 100%;
+    top: 0;
+    left: 0;
+}
+
+.sidenav .logo {
+    max-height: 55px;
+    align-items: left;
+}
+
+.sidenav .logo {
+    margin: 15px;
+}
+
+.container {
+    background-color: #1A1A1A;
+}

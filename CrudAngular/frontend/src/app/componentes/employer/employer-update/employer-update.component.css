@@ -1,0 +1,16 @@
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+button {
+    margin: 20px 10px 0px 0px;
+}
+
+.main {
+    width: 75%;
+    text-align: left;
+    margin: auto;
+    padding: 10px;
+    background-color: #1b1e1f
+}
