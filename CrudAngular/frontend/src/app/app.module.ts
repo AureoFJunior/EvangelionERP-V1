@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -51,6 +51,10 @@ import { OrderCrudComponent } from './views/order-crud/order-crud.component';
 import { CommonModule } from '@angular/common';
 import { NgImageSliderModule } from 'ng-image-slider';
 import { DashboardComponent } from './views/dashboard/dashboard.component';
+import ptBr from '@angular/common/locales/pt';
+import { registerLocaleData } from '@angular/common';
+
+registerLocaleData(ptBr);
 
 @NgModule({
   declarations: [
@@ -103,7 +107,7 @@ import { DashboardComponent } from './views/dashboard/dashboard.component';
     NgxMaskModule.forRoot()
  
   ],
-  providers: [UserService, AuthGuardService],
+    providers: [UserService, AuthGuardService, {provide: LOCALE_ID, useValue: 'pt'}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
