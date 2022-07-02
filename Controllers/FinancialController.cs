@@ -67,14 +67,27 @@ namespace EvangelionERP.Controllers
             }
             else
             {
-                _context.FinancialModel.Add(financial);
-                _context.SaveChanges();
-                return Ok(
-                    new
-                    {
-                        Message = "Financeiro adicionado com sucesso. ",
-                        StatusCode = 200
-                    });
+                if(_context.FinancialModel.FirstOrDefaultAsync() == null){
+                    _context.FinancialModel.Add(financial);
+                    _context.SaveChanges();
+                    return Ok(
+                        new
+                        {
+                            Message = "Financeiro adicionado com sucesso. ",
+                            StatusCode = 200
+                        });
+                }
+                else
+                {
+                    return Ok(
+                        new
+                        {
+                            Message = "Financeiro já existe. ",
+                            StatusCode = 200
+                        });
+                }
+
+               
             }
         }
 

@@ -192,6 +192,21 @@ namespace EvangelionERP.Controllers
             {
                 _context.OrderModel.Add(order);
                 _context.SaveChanges();
+
+                FinancialModel financial = _context.FinancialModel.FirstOrDefault();
+
+                if (order.FlOutput == true)
+                {
+                    financial.TotalValue += order.TotalValue;
+                }
+                else
+                {
+                    financial.TotalValue -= order.TotalValue;
+                }
+
+                _context.FinancialModel.Add(financial);
+                _context.SaveChanges();
+
                 return Ok(
                     new
                     {
