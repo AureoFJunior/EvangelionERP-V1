@@ -11,11 +11,6 @@ namespace EvangelionERP.Models
     {
         [Key]
         public int Cod { get; set; }
-        public byte? Status { get; set; }
         public decimal TotalValue { get; set; } 
-        public decimal ProductsQuantity { get; set; }
-        public bool FlOutput { get; set; }
-        public virtual List<OrderProductModel> OrderProductModel { get; set; }
-
     }
 }

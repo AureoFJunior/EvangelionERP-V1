@@ -21,6 +21,7 @@ namespace EvangelionERP.Data
         public DbSet<ProductModel> ProductModel { get; set; }
         public DbSet<OrderProductModel> OrderProductModel { get; set; }
         public DbSet<OrderModel> OrderModel { get; set; }
+        public DbSet<FinancialModel> FinancialModel { get; set; }
        
     }
 }
