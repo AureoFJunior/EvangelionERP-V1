@@ -17,6 +17,8 @@ using EvangelionERP.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
+using System.Reflection;
+using System.IO;
 
 namespace EvangelionERP
 {
@@ -58,6 +60,10 @@ namespace EvangelionERP
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "EvangelionCrud", Version = "v1" });
+
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
             });
             services.AddDbContext<Context>(opt => opt.UseSqlServer(Configuration["DefaultConnectionStrings"]));
         }

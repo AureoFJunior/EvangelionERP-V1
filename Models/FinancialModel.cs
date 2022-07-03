@@ -12,5 +12,6 @@ namespace EvangelionERP.Models
         [Key]
         public int Cod { get; set; }
         public decimal TotalValue { get; set; } 
+        public DateTime InclusionDate { get; set; } 
     }
 }

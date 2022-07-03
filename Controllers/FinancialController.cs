@@ -2,6 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using EvangelionERP.Data;
 using EvangelionERP.Models;
+using System;
+using System.Linq;
 
 namespace EvangelionERP.Controllers
 {
@@ -19,7 +21,7 @@ namespace EvangelionERP.Controllers
         /// Traz todos os produtos
         /// </summary>
         /// <returns></returns>
-        [HttpGet("get_financials")]
+        [HttpGet("get_financials/{date}")]
         public IActionResult GetFinancials()
         {
             var financial = _context.FinancialModel.AsQueryable();
@@ -33,12 +35,18 @@ namespace EvangelionERP.Controllers
         /// <summary>
         /// Traz o valor total monetário da empresa.
         /// </summary>
+        /// <param name="date">Data do financeiro. (Ex: 02-05-2022 (mês-dia-ano em padrão estadunidense))</param>
         /// <param name="cod">Código do financeiro.</param>
         /// <returns></returns>
-        [HttpGet("get_financial/{cod}")]
-        public IActionResult GeFinancials(int cod)
+        [HttpGet("get_financial/{date}/{cod?}")]
+        public IActionResult GeFinancials(DateTime date, int? cod)
         {
-            var financial = _context.FinancialModel.Find(cod);
+            FinancialModel financial = _context.FinancialModel.OrderByDescending(x => x.InclusionDate).FirstOrDefault();
+            if (cod == null || cod <= 0)
+            {
+                financial = _context.FinancialModel.Find(cod);
+            }
+
             if (financial == null)
             {
                 return NotFound(new
@@ -67,27 +75,14 @@ namespace EvangelionERP.Controllers
             }
             else
             {
-                if(_context.FinancialModel.FirstOrDefaultAsync() == null){
-                    _context.FinancialModel.Add(financial);
-                    _context.SaveChanges();
-                    return Ok(
-                        new
-                        {
-                            Message = "Financeiro adicionado com sucesso. ",
-                            StatusCode = 200
-                        });
-                }
-                else
-                {
-                    return Ok(
-                        new
-                        {
-                            Message = "Financeiro já existe. ",
-                            StatusCode = 200
-                        });
-                }
-
-               
+                _context.FinancialModel.Add(financial);
+                _context.SaveChanges();
+                return Ok(
+                    new
+                    {
+                        Message = "Financeiro adicionado com sucesso. ",
+                        StatusCode = 200
+                    });
             }
         }
 

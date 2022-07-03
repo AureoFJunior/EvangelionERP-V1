@@ -193,7 +193,10 @@ namespace EvangelionERP.Controllers
                 _context.OrderModel.Add(order);
                 _context.SaveChanges();
 
-                FinancialModel financial = _context.FinancialModel.FirstOrDefault();
+                FinancialModel financial = new FinancialModel();
+                financial.Cod = 0;
+                financial.InclusionDate = DateTime.Now;
+                financial.TotalValue = _context.FinancialModel.OrderByDescending(x => x.InclusionDate).FirstOrDefault().TotalValue;
 
                 if (order.FlOutput == true)
                 {
