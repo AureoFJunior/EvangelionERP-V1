@@ -34,11 +34,11 @@ import { EmployerReadComponent } from './componentes/employer/employer-read/empl
 
 import { FooterComponent } from './componentes/templates/footer/footer.component';
 import { NavComponent } from './componentes/templates/nav/nav.component';
-import {MatRadioModule} from '@angular/material/radio';
+import { MatRadioModule } from '@angular/material/radio';
 import { LoginScreenComponent } from './views/login-screen/login-screen.component';
 import { SignupScreenComponent } from './views/signup-screen/signup-screen.component';
 import { UserReadComponent } from './componentes/user/user-read/user-read.component';
-import {MatIconModule} from '@angular/material/icon';
+import { MatIconModule } from '@angular/material/icon';
 import { NgxMaskModule } from 'ngx-mask';
 import { ProfileComponent } from './views/profile/profile.component';
 import { ShowcaseComponent } from './views/showcase/showcase.component';
@@ -53,61 +53,64 @@ import { NgImageSliderModule } from 'ng-image-slider';
 import { DashboardComponent } from './views/dashboard/dashboard.component';
 import ptBr from '@angular/common/locales/pt';
 import { registerLocaleData } from '@angular/common';
+import { IgxLegendModule, IgxCategoryChartModule } from 'igniteui-angular-charts';
 
 registerLocaleData(ptBr);
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    FooterComponent,
-    NavComponent,
-    HomeComponent,
-    ProductCrudComponent,
-    RedDirective,
-    ProductCreateComponent,
-    ProductReadComponent,
-    ProductUpdateComponent,
-    EmployerCrudComponent,
-    EmployerCreateComponent,
-    EmployerUpdateComponent,
-    EmployerReadComponent,
-    LoginScreenComponent,
-    SignupScreenComponent,
-    UserReadComponent,
-    ProfileComponent,
-    ShowcaseComponent,
-    OrderCreateComponent,
-    OrderReadComponent,
-    OrderUpdateComponent,
-    OrderCrudComponent,
-    DashboardComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    MatToolbarModule,
-    MatSidenavModule,
-    MatListModule,
-    MatCardModule,
-    MatButtonModule,
-    MatSnackBarModule,
-    HttpClientModule,
-    FormsModule,
-    MatFormFieldModule, 
-    MatInputModule,
-    MatTableModule,
-    MatPaginatorModule,
-    MatSortModule,
-    MatRadioModule,
-    MatIconModule,
-    ReactiveFormsModule,
-    CommonModule,
-    NgImageSliderModule,
-    NgxMaskModule.forRoot()
- 
-  ],
-    providers: [UserService, AuthGuardService, {provide: LOCALE_ID, useValue: 'pt'}],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent,
+        FooterComponent,
+        NavComponent,
+        HomeComponent,
+        ProductCrudComponent,
+        RedDirective,
+        ProductCreateComponent,
+        ProductReadComponent,
+        ProductUpdateComponent,
+        EmployerCrudComponent,
+        EmployerCreateComponent,
+        EmployerUpdateComponent,
+        EmployerReadComponent,
+        LoginScreenComponent,
+        SignupScreenComponent,
+        UserReadComponent,
+        ProfileComponent,
+        ShowcaseComponent,
+        OrderCreateComponent,
+        OrderReadComponent,
+        OrderUpdateComponent,
+        OrderCrudComponent,
+        DashboardComponent
+    ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        MatToolbarModule,
+        MatSidenavModule,
+        MatListModule,
+        MatCardModule,
+        MatButtonModule,
+        MatSnackBarModule,
+        HttpClientModule,
+        FormsModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatTableModule,
+        MatPaginatorModule,
+        MatSortModule,
+        MatRadioModule,
+        MatIconModule,
+        ReactiveFormsModule,
+        CommonModule,
+        NgImageSliderModule,
+        IgxLegendModule,
+        IgxCategoryChartModule,
+        NgxMaskModule.forRoot()
+
+    ],
+    providers: [UserService, AuthGuardService, { provide: LOCALE_ID, useValue: 'pt' }],
+    bootstrap: [AppComponent]
 })
 export class AppModule { }

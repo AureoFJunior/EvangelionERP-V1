@@ -56,7 +56,7 @@ export class FinancialService {
         headers = headers.append('Access-Control-Allow-Origin', '*')
         headers = headers.append('Authorization', 'Bearer ' + token)
 
-        return this.httpClient.get<any>(`${this.baseUrl}/get_financials/${Date.now}`, { headers: headers }).pipe(map((res: any) => {
+        return this.httpClient.get<any>(`${this.baseUrl}/get_financials`, { headers: headers }).pipe(map((res: any) => {
             return res;
         }))
     }

@@ -21,10 +21,10 @@ namespace EvangelionERP.Controllers
         /// Traz todos os produtos
         /// </summary>
         /// <returns></returns>
-        [HttpGet("get_financials/{date}")]
+        [HttpGet("get_financials")]
         public IActionResult GetFinancials()
         {
-            var financial = _context.FinancialModel.AsQueryable();
+            var financial = _context.FinancialModel.AsNoTracking().OrderByDescending(x => x.InclusionDate).AsQueryable();
             return Ok(new
             {
                 StatusCode = 200,
@@ -41,7 +41,7 @@ namespace EvangelionERP.Controllers
         [HttpGet("get_financial/{date}/{cod?}")]
         public IActionResult GeFinancials(DateTime date, int? cod)
         {
-            FinancialModel financial = _context.FinancialModel.OrderByDescending(x => x.InclusionDate).FirstOrDefault();
+            FinancialModel financial = _context.FinancialModel.AsNoTracking().OrderByDescending(x => x.InclusionDate).FirstOrDefault();
             if (cod == null || cod <= 0)
             {
                 financial = _context.FinancialModel.Find(cod);
