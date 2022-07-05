@@ -1,47 +1,27 @@
-<app-footer></app-footer>
 <app-nav></app-nav>
 
 <div class="row">
     <div class="main mat-elevation-z8">
-        <mat-card-title>
-            Saldo Atual
+        <mat-card-title class="col-sm-4">
+            Saldo Atual:
         </mat-card-title>
+        <mat-card-title class="col-sm-2" [ngStyle]="{'color': financials[0].totalValue > 0 ? 'green' : 'red' }">
+            {{financials[0].totalValue}}
+        </mat-card-title>
+        <div>
+        </div>
     </div>
 </div>
 
 <div class="row">
     <div class="main mat-elevation-z8">
-        <mat-card-title>
-            <div class="container sample">
-                <div class="legend-title">
-                    Renewable Electricity Generated
-                </div>
-                <div class="legend">
-                    <igx-legend orientation="Horizontal"
-                                name="Legend"
-                                #legend>
-                    </igx-legend>
-                </div>
-                <div class="container fill">
-                    <igx-category-chart chartType="Area"
-                                        yAxisLabelLeftMargin="0"
-                                        yAxisTitleLeftMargin="10"
-                                        yAxisTitleRightMargin="5"
-                                        yAxisTitle="TWh"
-                                        [dataSource]="financials"
-                                        includedProperties="totalValue"
-                                        [legend]="legend"
-                                        isHorizontalZoomEnabled="false"
-                                        isVerticalZoomEnabled="false"
-                                        computedPlotAreaMarginMode="Series"
-                                        name="chart"
-                                        #chart>
-                    </igx-category-chart>
-                </div>
-            </div>
-        </mat-card-title>
+        <canvas baseChart
+                [data]="financialsCharts"
+                [type]="'line'"
+                [options]="chartOptions">
+        </canvas>
     </div>
-    </div>
+</div>
 
 <div class="row">
     <div class="main mat-elevation-z8">
@@ -112,6 +92,6 @@
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
 
-        <mat-paginator class="paginator" [pageSize]="5" aria-label="Selecione a página de pedidos"></mat-paginator>
+        <mat-paginator class="paginator" [pageSize]="10" aria-label="Selecione a página de pedidos"></mat-paginator>
     </div>
-    </div>
+</div>

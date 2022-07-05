@@ -33,29 +33,27 @@ export class OrderReadComponent implements OnInit {
             if (id !== "")
                 this.deleteOrder(id!)
         }
+        this.getFinancials()
 
-        this.financialService.read().subscribe(financials => {
-            this.financials = financials.financialsDetails
-        })
 
         this.ordeService.read().subscribe(orders => {
-            this.orders = orders.ordersDetails
+            this.orders = orders.financialsDetails
             this.dataSource.data = orders.ordersDetails
             this.dataSource.paginator = this.paginator;
         })
     }
 
-    @ViewChild("legend", { static: true })
-    private legend: IgxLegendComponent
-    @ViewChild("chart", { static: true })
-    private chart: IgxCategoryChartComponent
+    getFinancials(): void {
+        this.financialService.read().subscribe(financials => {
+            this.financials = financials.financialsDetails
 
-    private _countryRenewableElectricity: CountryRenewableElectricity = null;
-    public get countryRenewableElectricity(): CountryRenewableElectricity {
-        if (this._countryRenewableElectricity == null) {
-            this._countryRenewableElectricity = new CountryRenewableElectricity();
-        }
-        return this._countryRenewableElectricity;
+            this.financials.forEach(function (value) {
+                var year = new Date(value.inclusionDate).getFullYear()
+                var month = new Date(value.inclusionDate).getMonth()
+                var day = new Date(value.inclusionDate).getDate()
+                value.inclusionDate = new Date(year, month, day)
+            });
+        })
     }
 
     deleteOrder(cod: string): void {

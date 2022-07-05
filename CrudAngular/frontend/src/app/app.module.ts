@@ -17,17 +17,17 @@ import { ProductCrudComponent } from './views/product-crud/product-crud.componen
 import { RedDirective } from './directives/red.directive';
 import { ProductCreateComponent } from './componentes/product/product-create/product-create.component';
 
-import { HttpClientModule } from '@angular/common/http'
+import { HttpClientModule } from '@angular/common/http';
 
-import { FormsModule, ReactiveFormsModule } from '@angular/forms'
-import { MatFormFieldModule } from '@angular/material/form-field'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { ProductReadComponent } from './componentes/product/product-read/product-read.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { ProductUpdateComponent } from './componentes/product/product-update/product-update.component';
-import { EmployerCrudComponent } from './views/employer-crud/employer-crud.component'
+import { EmployerCrudComponent } from './views/employer-crud/employer-crud.component';
 import { EmployerCreateComponent } from './componentes/employer/employer-create/employer-create.component';
 import { EmployerUpdateComponent } from './componentes/employer/employer-update/employer-update.component';
 import { EmployerReadComponent } from './componentes/employer/employer-read/employer-read.component';
@@ -53,64 +53,62 @@ import { NgImageSliderModule } from 'ng-image-slider';
 import { DashboardComponent } from './views/dashboard/dashboard.component';
 import ptBr from '@angular/common/locales/pt';
 import { registerLocaleData } from '@angular/common';
-import { IgxLegendModule, IgxCategoryChartModule } from 'igniteui-angular-charts';
 
 registerLocaleData(ptBr);
 
 @NgModule({
-    declarations: [
-        AppComponent,
-        FooterComponent,
-        NavComponent,
-        HomeComponent,
-        ProductCrudComponent,
-        RedDirective,
-        ProductCreateComponent,
-        ProductReadComponent,
-        ProductUpdateComponent,
-        EmployerCrudComponent,
-        EmployerCreateComponent,
-        EmployerUpdateComponent,
-        EmployerReadComponent,
-        LoginScreenComponent,
-        SignupScreenComponent,
-        UserReadComponent,
-        ProfileComponent,
-        ShowcaseComponent,
-        OrderCreateComponent,
-        OrderReadComponent,
-        OrderUpdateComponent,
-        OrderCrudComponent,
-        DashboardComponent
-    ],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        BrowserAnimationsModule,
-        MatToolbarModule,
-        MatSidenavModule,
-        MatListModule,
-        MatCardModule,
-        MatButtonModule,
-        MatSnackBarModule,
-        HttpClientModule,
-        FormsModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatTableModule,
-        MatPaginatorModule,
-        MatSortModule,
-        MatRadioModule,
-        MatIconModule,
-        ReactiveFormsModule,
-        CommonModule,
-        NgImageSliderModule,
-        IgxLegendModule,
-        IgxCategoryChartModule,
-        NgxMaskModule.forRoot()
+	declarations: [
+		AppComponent,
+		FooterComponent,
+		NavComponent,
+		HomeComponent,
+		ProductCrudComponent,
+		RedDirective,
+		ProductCreateComponent,
+		ProductReadComponent,
+		ProductUpdateComponent,
+		EmployerCrudComponent,
+		EmployerCreateComponent,
+		EmployerUpdateComponent,
+		EmployerReadComponent,
+		LoginScreenComponent,
+		SignupScreenComponent,
+		UserReadComponent,
+		ProfileComponent,
+		ShowcaseComponent,
+		OrderCreateComponent,
+		OrderReadComponent,
+		OrderUpdateComponent,
+		OrderCrudComponent,
+		DashboardComponent
+	],
+	imports: [
+		BrowserModule,
+		AppRoutingModule,
+		BrowserAnimationsModule,
+		MatToolbarModule,
+		MatSidenavModule,
+		MatListModule,
+		MatCardModule,
+		MatButtonModule,
+		MatSnackBarModule,
+		HttpClientModule,
+		FormsModule,
+		MatFormFieldModule,
+		MatInputModule,
+		MatTableModule,
+		MatPaginatorModule,
+		MatSortModule,
+		MatRadioModule,
+		MatIconModule,
+		ReactiveFormsModule,
+		CommonModule,
+		NgImageSliderModule,
+		NgxMaskModule.forRoot()
 
-    ],
-    providers: [UserService, AuthGuardService, { provide: LOCALE_ID, useValue: 'pt' }],
-    bootstrap: [AppComponent]
+	],
+	providers: [UserService, AuthGuardService, { provide: LOCALE_ID, useValue: 'pt' }],
+	bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}
