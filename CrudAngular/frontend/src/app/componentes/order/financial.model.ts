@@ -4,8 +4,8 @@ export interface Financial {
     inclusionDate: Date;
 }
 
-export interface FinancialCharts {
-    label: string;
-    data: number[];
-    tension: number;
+export class FinancialCharts {
+    label: string[] = [];
+    data: number[] = [];
+    tension: number = 0;
 }

@@ -74,6 +74,20 @@ export class FinancialService {
         }))
     }
 
+    //Lê os dados para montagem do gráfico financeiro.
+    readChart() {
+        let headers = new HttpHeaders()
+        const token = this.storageService.getData('token')
+
+        headers = headers.append('Content-Type', 'application/json')
+        headers = headers.append('Access-Control-Allow-Origin', '*')
+        headers = headers.append('Authorization', 'Bearer ' + token)
+
+        return this.httpClient.get<any>(`${this.baseUrl}/get_financials_months`, { headers: headers }).pipe(map((res: any) => {
+            return res;
+        }))
+    }
+
     //Atualiza o financeiro
     update(financial: Financial): Observable<Financial> {
         let headers = new HttpHeaders()
