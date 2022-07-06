@@ -5,7 +5,9 @@ VisualStudioVersion = 17.0.31919.166
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EvangelionERP", "EvangelionERP.csproj", "{9DA4ACB4-3C0C-474C-AE81-820A3330BE09}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EvangelionERP.Test", "..\EvangelionERP.Test\EvangelionERP.Test.csproj", "{59107B78-4392-4522-B870-BA300069C157}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EvangelionERP.Test", "..\EvangelionERP.Test\EvangelionERP.Test.csproj", "{59107B78-4392-4522-B870-BA300069C157}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EvangelionERP.Data", "..\EvangelionERP.Data\EvangelionERP.Data.csproj", "{7D58BB4B-C84D-4CAE-9BDD-E327E05E125F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{59107B78-4392-4522-B870-BA300069C157}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{59107B78-4392-4522-B870-BA300069C157}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{59107B78-4392-4522-B870-BA300069C157}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D58BB4B-C84D-4CAE-9BDD-E327E05E125F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D58BB4B-C84D-4CAE-9BDD-E327E05E125F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D58BB4B-C84D-4CAE-9BDD-E327E05E125F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D58BB4B-C84D-4CAE-9BDD-E327E05E125F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

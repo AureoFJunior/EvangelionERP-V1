@@ -85,9 +85,9 @@ namespace EvangelionERP.Controllers
                 oldYear = fin.InclusionDate.Year;
             }
 
+            //Pega o último financeiro de cada mês.
             foreach (int year in years)
             {
-                //TODO: Pegar o último registro de cada mês (considerar se é dia 30 ou 31)
                 financials.Add(_context.FinancialModel.AsNoTracking().Where(x => x.InclusionDate.Year == year && x.InclusionDate.Month == 1  && x.InclusionDate.Day == 31 ).OrderByDescending(x => x.Cod).FirstOrDefault()); //Jan
                 financials.Add(_context.FinancialModel.AsNoTracking().Where(x => x.InclusionDate.Year == year && x.InclusionDate.Month ==  2 && x.InclusionDate.Day == 28 ).OrderByDescending(x => x.Cod).FirstOrDefault()); //Fev
                 financials.Add(_context.FinancialModel.AsNoTracking().Where(x => x.InclusionDate.Year == year && x.InclusionDate.Month ==  3 && x.InclusionDate.Day == 31 ).OrderByDescending(x => x.Cod).FirstOrDefault()); //Mar

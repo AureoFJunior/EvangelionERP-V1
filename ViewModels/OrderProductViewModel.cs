@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EvangelionERP.Models
 {
+    //OrderProductDTO
     public class OrderProductViewModel
     {
         [Key]
