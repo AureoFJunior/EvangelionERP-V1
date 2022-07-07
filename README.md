@@ -2,7 +2,7 @@
 
 ## Welcome to the EVANGELION ERP! 😘
 
-![logo of evangelion erp]([https://user-images.githubusercontent.com/70723569/176287922-6971854c-6c32-4fe8-b40a-e1bfb30ead60.png](https://static.wikia.nocookie.net/evangelion/images/d/db/Neon_Genesis_Evangelion_Logo_transparent.png/revision/latest/scale-to-width-down/1000?cb=20200521033858))
+![logo of evangelion erp](https://static.wikia.nocookie.net/evangelion/images/d/db/Neon_Genesis_Evangelion_Logo_transparent.png/revision/latest/scale-to-width-down/1000?cb=20200521033858)
 
 ## 👾 🤖 Basicly this project is an mini-ERP system, made for small enterprises to make easier they daily job and the enterprise management. 
 
