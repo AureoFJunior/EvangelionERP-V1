@@ -20,6 +20,10 @@
 
 ### We are working on it.. wait for new changes, new features and more! 👀🎆
 
+<div class="downloads">
+<img src="https://img.shields.io/github/downloads/AureoFJunior/EvangelionERP-V1/total?style=for-the-badge">
+</div>
+
 #### Home
 ![home page](https://user-images.githubusercontent.com/70723569/176287922-6971854c-6c32-4fe8-b40a-e1bfb30ead60.png)
 
