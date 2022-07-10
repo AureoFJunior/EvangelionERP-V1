@@ -11,8 +11,8 @@ namespace EvangelionERP.Data.Repositorys
     {
         List<T> GetAll();
         T GetById(int id);
-        void Add(T entity);
-        void Edit(T entity);
-        void Delete(int id);
+        T Add(T entity);
+        T Edit(T entity);
+        T Delete(int id);
     }
 }

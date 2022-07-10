@@ -42,7 +42,7 @@ namespace EvangelionERP.Controllers
         /// Pega o usuário que está logado.
         /// </summary>
         /// <returns></returns>
-        [HttpGet("isLogged")]
+        [HttpGet("isLogged")] //Fazer esse aqui no SERVICE
         public IActionResult GetLoggeds()
         {
             var userDetails = _context.UserModel.AsQueryable().Where(x => x.isLogged == 1).FirstOrDefault();
@@ -142,7 +142,7 @@ namespace EvangelionERP.Controllers
             }
         }
 
-        [HttpPost("refresh")]
+        [HttpPost("refresh")] //ESSE VAI DIRETO PRO SERVICE
         public IActionResult Refresh(string token, string refreshToken)
         {
             var principal = TokenHelper.GetPrincipalFromExpiredTokens(token);
@@ -163,7 +163,7 @@ namespace EvangelionERP.Controllers
             });
         }
 
-        [ApiExplorerSettings(IgnoreApi = true)]
+        [ApiExplorerSettings(IgnoreApi = true)] //ESSE VAI DIRETO PRO SERVICE
         public List<UserModel> Users()
         {
             List<UserModel> userLogin = _context.UserModel.AsQueryable().ToList();

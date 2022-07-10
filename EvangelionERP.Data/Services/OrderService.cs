@@ -9,17 +9,23 @@ using System.Threading.Tasks;
 
 namespace EvangelionERP.Data.Repositorys
 {
-    public class OrderRepository : BaseRepository<OrderModel>
+    public class OrderService
     {
         private readonly Context Context;
-        public OrderRepository([FromServices] Context context) : base(context) => Context = context;
+        private readonly OrderRepository OrderRepository;
+
+        public OrderService([FromServices] Context context)
+        {
+            Context = context;
+            OrderRepository = new OrderRepository(context);
+        }
 
         #region Add
         public OrderModel AddOrder(OrderModel order)
         {
             try
             {
-                return Add(order);
+                return OrderRepository.AddOrder(order);
             }   
             catch (Exception ex) { throw ex.InnerException; };
         }
@@ -43,7 +49,7 @@ namespace EvangelionERP.Data.Repositorys
                 if (ord == null)
                     return null;
 
-                return Edit(order);
+                return OrderRepository.EditOrder(order);
             }
             catch (Exception ex) { throw ex.InnerException; };
         }
@@ -54,7 +60,7 @@ namespace EvangelionERP.Data.Repositorys
         {
             try
             {
-                return GetAll();
+                return OrderRepository.GetOrders();
             }
             catch (Exception ex) { throw ex.InnerException; };
         }
@@ -63,7 +69,7 @@ namespace EvangelionERP.Data.Repositorys
         {
             try
             {
-                return GetById(cod);
+                return OrderRepository.GetOrder(cod);
             }
             catch (Exception ex) { throw ex.InnerException; };
         }

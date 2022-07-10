@@ -16,20 +16,20 @@ namespace EvangelionERP.Data.Repositorys
             Context = context;
         }
 
-        public void Add(T entity)
+        public T Add(T entity)
         {
-            Context.Set<T>().Add(entity);
+            Context.Set<T>().Add(entity); return entity;
         }
 
-        public void Delete(int id)
+        public T Delete(int id)
         {
             var q = GetById(id);
-            Context.Set<T>().Remove(q);
+            Context.Set<T>().Remove(q); return q;
         }
 
-        public void Edit(T entity)
+        public T Edit(T entity)
         {
-            Context.Entry<T>(entity).State = EntityState.Modified;
+            Context.Entry<T>(entity).State = EntityState.Modified; return entity;
         }
 
         public List<T> GetAll()

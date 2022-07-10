@@ -6,6 +6,7 @@ using System;
 using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using System.Collections.Generic;
+using EvangelionERP.Data.Repositorys;
 
 namespace EvangelionERP.Controllers
 {
@@ -14,9 +15,16 @@ namespace EvangelionERP.Controllers
     public class OrderController : Controller
     {
         private readonly Context _context;
+        private readonly OrderService OrderService;
+        private readonly FinancialService FinancialService;
+        private readonly OrderProductService OrderProductService;
+
         public OrderController([FromServices] Context context)
         {
             _context = context;
+            OrderService = new OrderService(context);
+            FinancialService = new FinancialService(context);
+            OrderProductService = new OrderProductService(context);
         }
 
         /// <summary>
@@ -27,12 +35,15 @@ namespace EvangelionERP.Controllers
         [Authorize]
         public IActionResult GetOrders()
         {
-            var order = _context.OrderModel.AsQueryable().OrderByDescending(x => x.Cod);
-            return Ok(new
+            try
             {
-                StatusCode = 200,
-                OrdersDetails = order
-            });
+                List<OrderModel> order = OrderService.GetOrders();
+                return Ok(new
+                {
+                    StatusCode = 200,
+                    OrdersDetails = order
+                });
+            }catch (Exception ex) { return Problem(ex.Message); };
         }
 
         /// <summary>
@@ -43,47 +54,12 @@ namespace EvangelionERP.Controllers
         [HttpGet("get_order_products/{cod}")]
         public IActionResult GetOrderProducts(int cod)
         {
-            var order = _context.OrderProductModel.Where(o => o.OrderCod == cod).AsNoTracking().ToList();
-            var products = _context.ProductModel.AsNoTracking().ToList();
-            int orderCod = 0;
-            int productCod = 0;
-
-            List<OrderProductViewModel> orderProducts = new List<OrderProductViewModel>();
-            ProductModel produto = new ProductModel();
-
-
-            foreach (OrderProductModel product in order)
+            try
             {
-                OrderProductViewModel orderProduct = new OrderProductViewModel()
-                {
-                    Cod = product.Cod,
-                    Name = product.Name,
-                    OrderCod = product.OrderCod,
-                    Price = product.Price,
-                    ProductCod = product.ProductCod,
-                    Quantity = product.Quantity
-                };
-                orderProducts.Add(orderProduct);
-                produto = products.Where(x => x.Cod == product.Cod || x.Name == product.Name).FirstOrDefault();
-                products.Remove(produto);
-                orderCod = product.OrderCod;
+                List<OrderProductViewModel> orderProducts = OrderProductService.GetOrderProducts(cod);
+                return Ok(orderProducts);
             }
-
-            foreach (ProductModel product in products)
-            {
-                OrderProductViewModel orderProduct = new OrderProductViewModel()
-                {
-                    Cod = product.Cod,
-                    Name = product.Name,
-                    OrderCod = orderCod,
-                    Price = product.Price,
-                    ProductCod = productCod,
-                    Quantity = 0
-                };
-                orderProducts.Add(orderProduct);
-            }
-
-            return Ok(orderProducts);
+            catch (Exception ex) { return Problem(ex.Message); };
         }
 
         /// <summary>
@@ -94,19 +70,22 @@ namespace EvangelionERP.Controllers
         [HttpGet("get_order/{cod}")]
         public IActionResult GetOrder(int cod)
         {
-            var order = _context.OrderModel.Find(cod);
-            if (order == null)
+            try
             {
-                return NotFound(new
+                OrderModel order = OrderService.GetOrder(cod);
+                if (order == null)
                 {
-                    StatusCode = 404,
-                    Message = "Pedido não encontrado."
-                });
-            }
-            else
-            {
-                return Ok(order);
-            }
+                    return NotFound(new
+                    {
+                        StatusCode = 404,
+                        Message = "Pedido não encontrado."
+                    });
+                }
+                else
+                {
+                    return Ok(order);
+                }
+            }catch (Exception ex) { return Problem(ex.Message); };
         }
 
         /// <summary>
@@ -126,27 +105,13 @@ namespace EvangelionERP.Controllers
                 }
                 else
                 {
-                    foreach (var orderProduct in orderProducts)
-                    {
-                        //Se o produto possuir quantidade ou preço zerado ele não será incluso no pedido.
-                        if (orderProduct.Price <= 0 || orderProduct.Quantity <= 0)
-                            orderProducts = orderProducts.Where(x => x.ProductCod != orderProduct.ProductCod).ToArray();
-                        else
-                        {
-                            //Atribui o número do pedido aos itens.
-                            var orderCod = _context.OrderModel.OrderByDescending(o => o.Cod).Select(o => o.Cod == 0 ? 1 : o.Cod).FirstOrDefault() + 1;
-                            for (int i = 0; i < orderProducts.Length; i++)
-                            {
-                                orderProducts[i].OrderCod = orderProducts[i].OrderCod == 0 ? orderCod : orderProducts[i].OrderCod;
-                            }
-                        }
-                    }
+                    //Adiciona os produtos do pedido.
+                    OrderProductService.AddOrderProduct(orderProducts);
 
-                    _context.OrderProductModel.AddRange(orderProducts);
-                    _context.SaveChanges();
+                    //Chamar o EditProducts do service com o código de baixo implementado.
 
                     //Atualiza a quantidade do produto.
-                    foreach(var orderProduct in orderProducts)
+                    foreach (var orderProduct in orderProducts)
                     {
                         ProductModel product = _context.ProductModel.Find(orderProduct.ProductCod);
 
@@ -170,10 +135,7 @@ namespace EvangelionERP.Controllers
                         });
                 }
             }
-            catch (Exception ex)
-            {
-                return Problem(ex.Message);
-            }
+            catch (Exception ex) { return Problem(ex.Message); };
         }
 
         /// <summary>
@@ -184,39 +146,29 @@ namespace EvangelionERP.Controllers
         [HttpPost("add_order")]
         public IActionResult AddOrder([FromBody] OrderModel order)
         {
-            if (order == null)
+            try
             {
-                return BadRequest();
-            }
-            else
-            {
-                _context.OrderModel.Add(order);
-                _context.SaveChanges();
-
-                FinancialModel financial = new FinancialModel();
-                financial.Cod = 0;
-                financial.InclusionDate = DateTime.Now;
-                financial.TotalValue = _context.FinancialModel.OrderByDescending(x => x.InclusionDate).FirstOrDefault().TotalValue;
-
-                if (order.FlOutput == true)
+                if (order == null)
                 {
-                    financial.TotalValue += order.TotalValue;
+                    return BadRequest();
                 }
                 else
                 {
-                    financial.TotalValue -= order.TotalValue;
+                    //Adiciona o pedido.
+                    OrderService.AddOrder(order);
+
+                    //Atualiza o financeiro atual.
+                    FinancialService.AddFinancial(order);
+
+                    return Ok(
+                        new
+                        {
+                            Message = "Pedido gravado com sucesso. ",
+                            StatusCode = 200
+                        });
                 }
-
-                _context.FinancialModel.Add(financial);
-                _context.SaveChanges();
-
-                return Ok(
-                    new
-                    {
-                        Message = "Pedido gravado com sucesso. ",
-                        StatusCode = 200
-                    });
             }
+            catch (Exception ex) { return Problem(ex.Message); };
         }
 
         /// <summary>
@@ -227,38 +179,33 @@ namespace EvangelionERP.Controllers
         [HttpPut("update_order")]
         public IActionResult UpdateOrder([FromBody] OrderModel order)
         {
-            if (order == null)
+            try
             {
-                return BadRequest();
-            }
-            var orderCod = _context.OrderModel.OrderByDescending(o => o.Cod).Select(o => o.Cod == 0 ? 1 : o.Cod).FirstOrDefault();
-
-            if (order.Cod == 0)
-            {
-                order.Cod = orderCod;
-            }
-
-            var ord = _context.OrderModel.AsNoTracking().FirstOrDefault(x => x.Cod == orderCod);
-
-            //Se não achar o pedido.
-            if (ord == null)
-            {
-                return NotFound(new
+                if (order == null)
                 {
-                    StatusCode = 404,
-                    Message = "Pedido não encontrado."
-                });
-            }
-            else
-            {
-                _context.Entry(order).State = EntityState.Modified;
-                _context.SaveChanges();
-                return Ok(new
+                    return BadRequest();
+                }
+
+                OrderModel verificacao = OrderService.EditOrder(order);
+
+                //Se não achar o pedido.
+                if (verificacao == null)
                 {
-                    StatusCode = 200,
-                    Message = "Pedido atualizado com sucesso."
-                });
-            }
+                    return NotFound(new
+                    {
+                        StatusCode = 404,
+                        Message = "Pedido não encontrado."
+                    });
+                }
+                else
+                {
+                    return Ok(new
+                    {
+                        StatusCode = 200,
+                        Message = "Pedido atualizado com sucesso."
+                    });
+                }
+            }catch (Exception ex) { return Problem(ex.Message); };
         }
 
         /// <summary>
@@ -269,35 +216,31 @@ namespace EvangelionERP.Controllers
         [HttpDelete("delete_order_product/{orderCod}")]
         public IActionResult DeleteOrderProduct(int orderCod)
         {
-            //Se não achar o pedido..
-            if (orderCod == 0)
+            try
             {
-                //Retorna com o código de não encontrado (404)
-                return NotFound(new
+                //Se não achar o pedido..
+                if (orderCod == 0)
                 {
-                    StatusCode = 404,
-                    Message = "Pedido não encontrado."
-                });
-            }
-            else
-            {
-                var products = _context.OrderProductModel.Where(x => x.OrderCod == orderCod).AsNoTracking().ToList();
-                //Remove do banco esse produto e salva as alterações.
-                _context.OrderProductModel.FromSqlRaw("SET foreign_key_checks = 0;");
-                foreach (OrderProductModel product in products)
-                {
-                    _context.Remove(product);
+                    //Retorna com o código de não encontrado (404)
+                    return NotFound(new
+                    {
+                        StatusCode = 404,
+                        Message = "Pedido não encontrado."
+                    });
                 }
-                _context.OrderProductModel.FromSqlRaw("SET foreign_key_checks = 1;");
-                _context.SaveChanges();
-                return Ok(new
+                else
                 {
-                    StatusCode = 200,
-                    Message = "Produto excluído com sucesso deste pedido."
-                });
-            }
-        }
+                    //Excluí os produtos do pedido.
+                    OrderProductService.DeleteOrderProduct(orderCod);
 
+                    return Ok(new
+                    {
+                        StatusCode = 200,
+                        Message = "Produto excluído com sucesso deste pedido."
+                    });
+                }
+            }catch (Exception ex) { return Problem(ex.Message); };
+        }
     }
 }
 
