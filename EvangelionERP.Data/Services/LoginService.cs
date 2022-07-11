@@ -9,62 +9,65 @@ using System.Threading.Tasks;
 
 namespace EvangelionERP.Data.Repositorys
 {
-    public class FinancialService
+    public class LoginService
     {
         private readonly Context Context;
-        private readonly FinancialRepository FinancialRepository;
-        public FinancialService([FromServices] Context context)
+        private readonly LoginRepository LoginRepository;
+
+        public LoginService([FromServices] Context context)
         {
             Context = context;
-            FinancialRepository = new FinancialRepository(context);
+            LoginRepository = new LoginRepository(context);
         }
 
         #region Add
-        public FinancialModel AddFinancial(OrderModel order)
+        public UserModel AddLogin(UserModel user)
         {
             try
             {
-                return FinancialRepository.AddFinancial(order);
+                return LoginRepository.AddUser(user);
             }   
             catch (Exception ex) { throw ex.InnerException; };
         }
         #endregion
 
         #region Edit
-        public FinancialModel EditFinancial(FinancialModel financial)
+        public UserModel EditLogin(UserModel user)
         {
             try
             {
-                return FinancialRepository.EditFinancial(financial);
+                return LoginRepository.EditUser(user); ;
+            }
+            catch (Exception ex) { throw ex.InnerException; };
+        }
+        #endregion
+
+        #region Delete
+        public UserModel DeleteLogin(int cod)
+        {
+            try
+            {
+                return LoginRepository.DeleteUser(cod);
             }
             catch (Exception ex) { throw ex.InnerException; };
         }
         #endregion
 
         #region Searchs
-        public List<FinancialModel> GetFinancials()
+        public List<UserModel> GetLogins()
         {
             try
             {
-                return FinancialRepository.GetFinancials();
+                return LoginRepository.GetUsers();
             }
             catch (Exception ex) { throw ex.InnerException; };
         }
 
-        public FinancialModel GetFinancial(int cod)
+        public UserModel GetLogin(int cod)
         {
             try
             {
-                return FinancialRepository.GetFinancial(cod);
-            }
-            catch (Exception ex) { throw ex.InnerException; };
-        }
-
-        public List<FinancialModel> GetFinancialsMonths()
-        {
-            try
-            {
-                return FinancialRepository.GetFinancialsMonths();
+                return LoginRepository.GetUser(cod);
             }
             catch (Exception ex) { throw ex.InnerException; };
         }

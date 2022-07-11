@@ -9,62 +9,65 @@ using System.Threading.Tasks;
 
 namespace EvangelionERP.Data.Repositorys
 {
-    public class FinancialService
+    public class EmployerService
     {
         private readonly Context Context;
-        private readonly FinancialRepository FinancialRepository;
-        public FinancialService([FromServices] Context context)
+        private readonly EmployerRepository EmployerRepository;
+
+        public EmployerService([FromServices] Context context)
         {
             Context = context;
-            FinancialRepository = new FinancialRepository(context);
+            EmployerRepository = new EmployerRepository(context);
         }
 
         #region Add
-        public FinancialModel AddFinancial(OrderModel order)
+        public EmployerModel AddEmployer(EmployerModel employer)
         {
             try
             {
-                return FinancialRepository.AddFinancial(order);
+                return EmployerRepository.AddEmployer(employer);
             }   
             catch (Exception ex) { throw ex.InnerException; };
         }
         #endregion
 
         #region Edit
-        public FinancialModel EditFinancial(FinancialModel financial)
+        public EmployerModel EditEmployer(EmployerModel employer)
         {
             try
             {
-                return FinancialRepository.EditFinancial(financial);
+                return EmployerRepository.EditEmployer(employer); ;
+            }
+            catch (Exception ex) { throw ex.InnerException; };
+        }
+        #endregion
+
+        #region Delete
+        public EmployerModel DeleteEmployer(int cod)
+        {
+            try
+            {
+                return EmployerRepository.DeleteEmployer(cod);
             }
             catch (Exception ex) { throw ex.InnerException; };
         }
         #endregion
 
         #region Searchs
-        public List<FinancialModel> GetFinancials()
+        public List<EmployerModel> GetEmployers()
         {
             try
             {
-                return FinancialRepository.GetFinancials();
+                return EmployerRepository.GetEmployers();
             }
             catch (Exception ex) { throw ex.InnerException; };
         }
 
-        public FinancialModel GetFinancial(int cod)
+        public EmployerModel GetEmployer(int cod)
         {
             try
             {
-                return FinancialRepository.GetFinancial(cod);
-            }
-            catch (Exception ex) { throw ex.InnerException; };
-        }
-
-        public List<FinancialModel> GetFinancialsMonths()
-        {
-            try
-            {
-                return FinancialRepository.GetFinancialsMonths();
+                return EmployerRepository.GetEmployer(cod);
             }
             catch (Exception ex) { throw ex.InnerException; };
         }

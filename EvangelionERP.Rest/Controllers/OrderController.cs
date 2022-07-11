@@ -18,6 +18,7 @@ namespace EvangelionERP.Controllers
         private readonly OrderService OrderService;
         private readonly FinancialService FinancialService;
         private readonly OrderProductService OrderProductService;
+        private readonly ProductService ProductService;
 
         public OrderController([FromServices] Context context)
         {
@@ -25,6 +26,7 @@ namespace EvangelionERP.Controllers
             OrderService = new OrderService(context);
             FinancialService = new FinancialService(context);
             OrderProductService = new OrderProductService(context);
+            ProductService = new ProductService(context);
         }
 
         /// <summary>
@@ -108,24 +110,8 @@ namespace EvangelionERP.Controllers
                     //Adiciona os produtos do pedido.
                     OrderProductService.AddOrderProduct(orderProducts);
 
-                    //Chamar o EditProducts do service com o código de baixo implementado.
-
                     //Atualiza a quantidade do produto.
-                    foreach (var orderProduct in orderProducts)
-                    {
-                        ProductModel product = _context.ProductModel.Find(orderProduct.ProductCod);
-
-                        if (orderProduct.FlOutput == true)
-                        {
-                            product.Quantity -= orderProduct.Quantity;
-                        }
-                        else
-                        {
-                            product.Quantity += orderProduct.Quantity;
-                        }
-                        _context.ProductModel.Update(product);
-                        _context.SaveChanges();
-                    }
+                    List<ProductModel> products = ProductService.EditProduct(orderProducts);
 
                     return Ok(
                         new
