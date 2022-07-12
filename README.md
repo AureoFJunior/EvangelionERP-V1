@@ -6,7 +6,7 @@
 
 ## 👾 🤖 Basicly this project is an mini-ERP system, made for small enterprises to make easier they daily job and the enterprise management. 
 
-### Constructed with kind techs like C#/.NET 6, Entity Framework Core, with SQL Server, Angular 13+, Angular Material and Bootstrap and using good design patterns and good pratices of clean code and much more!.
+### Constructed with kind techs like C#/.NET 6, Entity Framework Core, with SQL Server, Angular 13+, Angular Material and Bootstrap and using good design patterns, DDD, good pratices of clean code and much more!.
 
 <div class="back">
   <img src="https://img.shields.io/badge/C%23-239120?style=for-the-badge&logo=c-sharp&logoColor=white%22%3E">
