@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using EvangelionERP.Data;
 using EvangelionERP.Models;
+using System;
+using EvangelionERP.Data.Services;
 
 namespace EvangelionERP.Controllers
 {
@@ -12,9 +14,12 @@ namespace EvangelionERP.Controllers
     public class EmployerController : ControllerBase
     {
         private readonly Context _context;
+        private readonly EmployerService EmployerService;
+
         public EmployerController([FromServices] Context userContext)
         {
             _context = userContext;
+            EmployerService = new EmployerService(userContext);
         }
 
         /// <summary>
@@ -24,12 +29,15 @@ namespace EvangelionERP.Controllers
         [HttpGet("get_employers")]
         public IActionResult GetEmployers()
         {
-            var employer = _context.EmployerModel.AsQueryable();
-            return Ok(new
-            {
-                StatusCode = 200,
-                EmployerDetails = employer
-            });
+            try
+            {  
+                var employer = EmployerService.GetEmployers();
+                return Ok(new
+                {
+                    StatusCode = 200,
+                    EmployerDetails = employer
+                });
+            } catch (Exception ex) { return Problem(ex.Message); }
         }
 
         /// <summary>
@@ -40,19 +48,22 @@ namespace EvangelionERP.Controllers
         [HttpGet("get_employer/{cod}")]
         public IActionResult GetEmployer(int cod)
         {
-            var employer = _context.EmployerModel.Find(cod);
-            if (employer == null)
-            {
-                return NotFound(new
+            try 
+            { 
+                var employer = EmployerService.GetEmployer(cod);
+                if (employer == null)
                 {
-                    StatusCode = 404,
-                    Message = "Funcionário não encontrado."
-                });
-            }
-            else
-            {
-                return Ok(employer);
-            }
+                    return NotFound(new
+                    {
+                        StatusCode = 404,
+                        Message = "Funcionário não encontrado."
+                    });
+                }
+                else
+                {
+                    return Ok(employer);
+                }
+            } catch (Exception ex) { return Problem(ex.Message); }
         }
 
         /// <summary>
@@ -63,21 +74,23 @@ namespace EvangelionERP.Controllers
         [HttpPost("add_employer")]
         public IActionResult AddEmployer([FromBody] EmployerModel employer)
         {
-            if (employer == null)
+            try
             {
-                return BadRequest();
-            }
-            else
-            {
-                _context.EmployerModel.Add(employer);
-                _context.SaveChanges();
-                return Ok(
-                    new
-                    {
-                        Message = "Funcionário adicionado com sucesso. ",
-                        StatusCode = 200
-                    });
-            }
+                if (employer == null)
+                {
+                    return BadRequest();
+                }
+                else
+                {
+                    EmployerService.AddEmployer(employer);
+                    return Ok(
+                        new
+                        {
+                            Message = "Funcionário adicionado com sucesso. ",
+                            StatusCode = 200
+                        });
+                }
+            }catch (Exception ex) { return Problem(ex.Message); }
         }
 
         /// <summary>
@@ -88,33 +101,35 @@ namespace EvangelionERP.Controllers
         [HttpPut("update_employer")]
         public  IActionResult UpdateEmployer([FromBody] EmployerModel employer)
         {
-            if (employer == null)
+            try
             {
-                return BadRequest();
-            }
-
-            var user =  _context.EmployerModel.AsNoTracking().FirstOrDefault(x => x.Cod == employer.Cod);
-
-            //Se não achar o funcionário.
-            if (user == null)
-            {
-                return NotFound(new
+                if (employer == null)
                 {
-                    StatusCode = 404,
-                    Message = "Funcionário não encontrado."
-                });
-            }
-            else
-            {
-                _context.Entry(employer).State = EntityState.Modified;
-                _context.SaveChanges();
-                return Ok(new
+                    return BadRequest();
+                }
+
+                var user = EmployerService.GetEmployer(employer.Cod);
+
+                //Se não achar o funcionário.
+                if (user == null)
                 {
-                    StatusCode = 200,
-                    Message = "Funcionário atualizado com sucesso."
-                });
-            }
-        }
+                    return NotFound(new
+                    {
+                        StatusCode = 404,
+                        Message = "Funcionário não encontrado."
+                    });
+                }
+                else
+                {
+                    EmployerService.EditEmployer(employer);
+                    return Ok(new
+                    {
+                        StatusCode = 200,
+                        Message = "Funcionário atualizado com sucesso."
+                    });
+                }
+            }catch (Exception ex) { return Problem(ex.Message);}
+         }   
 
         /// <summary>
         /// Excluí um funcionário
@@ -124,30 +139,31 @@ namespace EvangelionERP.Controllers
         [HttpDelete("delete_employer/{cod}")]
         public IActionResult DeleteEmployer(int cod)
         {
-            var employer = _context.EmployerModel.Find(cod);
+            try
+            {
+                var employer = EmployerService.GetEmployer(cod);
 
-            //Se não achar o funcionário.
-            if (employer == null)
-            {
-                //Retorna com o código de não encontrado (404)
-                return NotFound(new
+                //Se não achar o funcionário.
+                if (employer == null)
                 {
-                    StatusCode = 404,
-                    Message = "Funcionário não encontrado."
-                });
-            }
-            else
-            {
-                //Remove do banco esse funcionário e salva as alterações.
-                _context.Remove(employer);
-                _context.SaveChanges();
-                return Ok(new
+                    //Retorna com o código de não encontrado (404)
+                    return NotFound(new
+                    {
+                        StatusCode = 404,
+                        Message = "Funcionário não encontrado."
+                    });
+                }
+                else
                 {
-                    StatusCode = 200,
-                    Message = "Funcionário excluído com sucesso."
-                });
-            }
+                    //Remove do banco esse funcionário e salva as alterações.
+                    EmployerService.DeleteEmployer(cod);
+                    return Ok(new
+                    {
+                        StatusCode = 200,
+                        Message = "Funcionário excluído com sucesso."
+                    });
+                }
+            }catch (Exception ex) { return Problem(ex.Message); }
         }
-
     }
 }

@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using EvangelionERP.Data;
 using EvangelionERP.Models;
+using EvangelionERP.Data.Services;
+using System;
 
 namespace EvangelionERP.Controllers
 {
@@ -11,9 +13,12 @@ namespace EvangelionERP.Controllers
     public class CustomerController : ControllerBase
     {
         private readonly Context _context;
+        private readonly CustomerService CustomerService;
+
         public CustomerController([FromServices] Context userContext)
         {
             _context = userContext;
+            CustomerService = new CustomerService(userContext);
         }
 
         /// <summary>
@@ -23,12 +28,16 @@ namespace EvangelionERP.Controllers
         [HttpGet("get_customers")]
         public IActionResult GetCustomers()
         {
-            var customer = _context.CustomerModel.AsQueryable();
-            return Ok(new
+            try
             {
-                StatusCode = 200,
-                customerDetails = customer
-            });
+                var customer = CustomerService.GetCustomers();
+                return Ok(new
+                {
+                    StatusCode = 200,
+                    customerDetails = customer
+                });
+            }
+            catch (Exception ex) { return Problem(ex.Message); }
         }
 
         /// <summary>
@@ -39,19 +48,23 @@ namespace EvangelionERP.Controllers
         [HttpGet("get_customer/{cod}")]
         public IActionResult GetCustomer(int cod)
         {
-            var customer = _context.CustomerModel.Find(cod);
-            if (customer == null)
+            try
             {
-                return NotFound(new
+                var customer = CustomerService.GetCustomer(cod);
+                if (customer == null)
                 {
-                    StatusCode = 404,
-                    Message = "cliente não encontrado."
-                });
+                    return NotFound(new
+                    {
+                        StatusCode = 404,
+                        Message = "cliente não encontrado."
+                    });
+                }
+                else
+                {
+                    return Ok(customer);
+                }
             }
-            else
-            {
-                return Ok(customer);
-            }
+            catch (Exception ex) { return Problem(ex.Message); }
         }
 
         /// <summary>
@@ -62,21 +75,24 @@ namespace EvangelionERP.Controllers
         [HttpPost("add_customer")]
         public IActionResult AddCustomer([FromBody] CustomerModel customer)
         {
-            if (customer == null)
+            try
             {
-                return BadRequest();
+                if (customer == null)
+                {
+                    return BadRequest();
+                }
+                else
+                {
+                    CustomerService.AddCustomer(customer);
+                    return Ok(
+                        new
+                        {
+                            Message = "cliente adicionado com sucesso. ",
+                            StatusCode = 200
+                        });
+                }
             }
-            else
-            {
-                _context.CustomerModel.Add(customer);
-                _context.SaveChanges();
-                return Ok(
-                    new
-                    {
-                        Message = "cliente adicionado com sucesso. ",
-                        StatusCode = 200
-                    });
-            }
+            catch (Exception ex) { return Problem(ex.Message); }
         }
 
         /// <summary>
@@ -87,32 +103,35 @@ namespace EvangelionERP.Controllers
         [HttpPut("update_customer")]
         public IActionResult UpdateCustomer([FromBody] CustomerModel customer)
         {
-            if (customer == null)
+            try
             {
-                return BadRequest();
-            }
-
-            var user = _context.CustomerModel.AsNoTracking().FirstOrDefaultAsync(x => x.Cod == customer.Cod);
-
-            //Se não achar o cliente.
-            if (user == null)
-            {
-                return NotFound(new
+                if (customer == null)
                 {
-                    StatusCode = 404,
-                    Message = "cliente não encontrado."
-                });
-            }
-            else
-            {
-                _context.Entry(customer).State = EntityState.Modified;
-                _context.SaveChanges();
-                return Ok(new
+                    return BadRequest();
+                }
+
+                var user = CustomerService.GetCustomer(customer.Cod);
+
+                //Se não achar o cliente.
+                if (user == null)
                 {
-                    StatusCode = 200,
-                    Message = "cliente atualizado com sucesso."
-                });
+                    return NotFound(new
+                    {
+                        StatusCode = 404,
+                        Message = "cliente não encontrado."
+                    });
+                }
+                else
+                {
+                    CustomerService.EditCustomer(customer);
+                    return Ok(new
+                    {
+                        StatusCode = 200,
+                        Message = "cliente atualizado com sucesso."
+                    });
+                }
             }
+            catch (Exception ex) { return Problem(ex.Message); }
         }
 
         /// <summary>
@@ -123,30 +142,33 @@ namespace EvangelionERP.Controllers
         [HttpDelete("delete_customer/{cod}")]
         public IActionResult DeleteCustomer(int cod)
         {
-            var customer = _context.CustomerModel.Find(cod);
+            try
+            {
+                var customer = CustomerService.GetCustomer(cod);
 
-            //Se não achar o cliente.
-            if (customer == null)
-            {
-                //Retorna com o código de não encontrado (404)
-                return NotFound(new
+                //Se não achar o cliente.
+                if (customer == null)
                 {
-                    StatusCode = 404,
-                    Message = "cliente não encontrado."
-                });
-            }
-            else
-            {
-                //Remove do banco esse cliente e salva as alterações.
-                _context.Remove(customer);
-                _context.SaveChanges();
-                return Ok(new
+                    //Retorna com o código de não encontrado (404)
+                    return NotFound(new
+                    {
+                        StatusCode = 404,
+                        Message = "cliente não encontrado."
+                    });
+                }
+                else
                 {
-                    StatusCode = 200,
-                    Message = "cliente excluído com sucesso."
-                });
+                    //Remove do banco esse cliente e salva as alterações.
+                    CustomerService.DeleteCustomer(cod);
+                    return Ok(new
+                    {
+                        StatusCode = 200,
+                        Message = "cliente excluído com sucesso."
+                    });
+                }
             }
+            catch (Exception ex) { return Problem(ex.Message); }
         }
-
     }
 }
+

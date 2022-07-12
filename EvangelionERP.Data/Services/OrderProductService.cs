@@ -1,4 +1,5 @@
-﻿using EvangelionERP.Models;
+﻿using EvangelionERP.Data.Repositorys;
+using EvangelionERP.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -7,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EvangelionERP.Data.Repositorys
+namespace EvangelionERP.Data.Services
 {
     public class OrderProductService
     {

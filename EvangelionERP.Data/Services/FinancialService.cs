@@ -1,4 +1,5 @@
-﻿using EvangelionERP.Models;
+﻿using EvangelionERP.Data.Repositorys;
+using EvangelionERP.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -7,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EvangelionERP.Data.Repositorys
+namespace EvangelionERP.Data.Services
 {
     public class FinancialService
     {
@@ -26,6 +27,15 @@ namespace EvangelionERP.Data.Repositorys
             {
                 return FinancialRepository.AddFinancial(order);
             }   
+            catch (Exception ex) { throw ex.InnerException; };
+        }
+
+        public FinancialModel AddFinancial(FinancialModel financial)
+        {
+            try
+            {
+                return FinancialRepository.Add(financial);
+            }
             catch (Exception ex) { throw ex.InnerException; };
         }
         #endregion

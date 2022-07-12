@@ -6,7 +6,7 @@ using System;
 using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using System.Collections.Generic;
-using EvangelionERP.Data.Repositorys;
+using EvangelionERP.Data.Services;
 
 namespace EvangelionERP.Controllers
 {

@@ -2,6 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using EvangelionERP.Data;
 using EvangelionERP.Models;
+using EvangelionERP.Data.Services;
+using System;
 
 namespace EvangelionERP.Controllers
 {
@@ -10,9 +12,12 @@ namespace EvangelionERP.Controllers
     public class ProductController : ControllerBase
     {
         private readonly Context _context;
+        private readonly ProductService ProductService;
+
         public ProductController([FromServices] Context context)
         {
             _context = context;
+            ProductService = new ProductService(context);
         }
 
         /// <summary>
@@ -22,18 +27,22 @@ namespace EvangelionERP.Controllers
         [HttpGet("get_products")]
         public IActionResult GetProducts()
         {
-            var product = _context.ProductModel.AsQueryable();
-            return Ok(new
+            try
             {
-                StatusCode = 200,
-                ProductsDetails = product
-            });
+                var product = ProductService.GetProducts();
+                return Ok(new
+                {
+                    StatusCode = 200,
+                    ProductsDetails = product
+                });
+
+            }catch(Exception ex) { return Problem(ex.Message);}
         }
 
         [HttpGet("get_products_only")]
         public IActionResult GetProductsOnly()
         {
-            var product = _context.ProductModel.AsQueryable();
+            var product = ProductService.GetProducts();
             return Ok(product);
         }
 
@@ -45,19 +54,22 @@ namespace EvangelionERP.Controllers
         [HttpGet("get_product/{cod}")]
         public IActionResult GeProduct(int cod)
         {
-            var product = _context.ProductModel.Find(cod);
-            if (product == null)
+            try
             {
-                return NotFound(new
+                var product = ProductService.GetProduct(cod);
+                if (product == null)
                 {
-                    StatusCode = 404,
-                    Message = "Produto não encontrado."
-                });
-            }
-            else
-            {
-                return Ok(product);
-            }
+                    return NotFound(new
+                    {
+                        StatusCode = 404,
+                        Message = "Produto não encontrado."
+                    });
+                }
+                else
+                {
+                    return Ok(product);
+                }
+            }catch (Exception ex) { return Problem(ex.Message); }
         }
 
         /// <summary>
@@ -66,23 +78,25 @@ namespace EvangelionERP.Controllers
         /// <param name="product">Produto a ser adicionado.</param>
         /// <returns></returns>
         [HttpPost("add_product")]
-        public IActionResult AddProduto([FromBody] ProductModel product)
+        public IActionResult AddProduct([FromBody] ProductModel product)
         {
-            if (product == null)
+            try
             {
-                return BadRequest();
-            }
-            else
-            {
-                _context.ProductModel.Add(product);
-                _context.SaveChanges();
-                return Ok(
-                    new
-                    {
-                        Message = "Produto adicionado com sucesso. ",
-                        StatusCode = 200
-                    });
-            }
+                if (product == null)
+                {
+                    return BadRequest();
+                }
+                else
+                {
+                    ProductService.AddProduct(product);
+                    return Ok(
+                        new
+                        {
+                            Message = "Produto adicionado com sucesso. ",
+                            StatusCode = 200
+                        });
+                }
+            }catch (Exception ex) { return Problem(ex.Message); }
         }
 
         /// <summary>
@@ -93,32 +107,34 @@ namespace EvangelionERP.Controllers
         [HttpPut("update_product")]
         public IActionResult UpdateProduct([FromBody] ProductModel product)
         {
-            if (product == null)
+            try
             {
-                return BadRequest();
-            }
-
-            var prod = _context.ProductModel.AsNoTracking().FirstOrDefaultAsync(x => x.Cod == product.Cod);
-
-            //Se não achar o produto.
-            if (prod == null)
-            {
-                return NotFound(new
+                if (product == null)
                 {
-                    StatusCode = 404,
-                    Message = "Produto não encontrado."
-                });
-            }
-            else
-            {
-                _context.Entry(product).State = EntityState.Modified;
-                _context.SaveChanges();
-                return Ok(new
+                    return BadRequest();
+                }
+
+                var prod = ProductService.GetProduct(product.Cod);
+
+                //Se não achar o produto.
+                if (prod == null)
                 {
-                    StatusCode = 200,
-                    Message = "Produto atualizado com sucesso."
-                });
-            }
+                    return NotFound(new
+                    {
+                        StatusCode = 404,
+                        Message = "Produto não encontrado."
+                    });
+                }
+                else
+                {
+                    ProductService.EditProduct(product);
+                    return Ok(new
+                    {
+                        StatusCode = 200,
+                        Message = "Produto atualizado com sucesso."
+                    });
+                }
+            }catch (Exception ex) { return Problem(ex.Message);}
         }
 
         /// <summary>
@@ -129,30 +145,31 @@ namespace EvangelionERP.Controllers
         [HttpDelete("delete_product/{cod}")]
         public IActionResult DeleteProduct(int cod)
         {
-            var product = _context.ProductModel.Find(cod);
+            try
+            {
+                var product = ProductService.GetProduct(cod);
 
-            //Se não achar o produto.
-            if (product == null)
-            {
-                //Retorna com o código de não encontrado (404)
-                return NotFound(new
+                //Se não achar o produto.
+                if (product == null)
                 {
-                    StatusCode = 404,
-                    Message = "Produto não encontrado."
-                });
-            }
-            else
-            {
-                //Remove do banco esse produto e salva as alterações.
-                _context.Remove(product);
-                _context.SaveChanges();
-                return Ok(new
+                    //Retorna com o código de não encontrado (404)
+                    return NotFound(new
+                    {
+                        StatusCode = 404,
+                        Message = "Produto não encontrado."
+                    });
+                }
+                else
                 {
-                    StatusCode = 200,
-                    Message = "Produto excluído com sucesso."
-                });
-            }
+                    //Remove do banco esse produto e salva as alterações.
+                    ProductService.DeleteProduct(cod);
+                    return Ok(new
+                    {
+                        StatusCode = 200,
+                        Message = "Produto excluído com sucesso."
+                    });
+                }
+            }catch (Exception ex) { return Problem(ex.Message);}
         }
-
     }
 }
