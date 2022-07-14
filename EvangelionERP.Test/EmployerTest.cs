@@ -5,18 +5,17 @@ using EvangelionERP.Data.Services;
 
 namespace EvangelionERP.Test
 {
-    public class CustomerTest
+    public class EmployerTest
     {
-        private readonly CustomerService CustomerService;
-
-        public CustomerTest() => CustomerService = new CustomerService(new ContextFactory().context);
+        private readonly EmployerService EmployerService;
+        public EmployerTest() => EmployerService = new EmployerService(new ContextFactory().context);
 
         [Fact]
         public void Get()
         {
             try
             {
-                Assert.NotNull(CustomerService.GetCustomers());
+                Assert.NotNull(EmployerService.GetEmployers());
             }
             catch (Exception ex)
             {
@@ -28,8 +27,8 @@ namespace EvangelionERP.Test
         {
             try
             {
-                var cod = CustomerService.GetCustomers().FirstOrDefault().Cod;
-                Assert.NotNull(CustomerService.GetCustomer(cod));
+                var cod = EmployerService.GetEmployers().FirstOrDefault().Cod;
+                Assert.NotNull(EmployerService.GetEmployer(cod));
             }
             catch (Exception ex)
             {
@@ -41,7 +40,7 @@ namespace EvangelionERP.Test
         {
             try
             {
-                Assert.NotNull(CustomerService.AddCustomer(new Models.CustomerModel() { FirstName = "Teste", LastName = "Teste", Email = "teste@gmail.com", Mobile = ""}));
+                Assert.NotNull(EmployerService.AddEmployer(new Models.EmployerModel() { FirstName = "Teste", LastName = "Teste", Email = "teste@gmail.com", Mobile = "", Salary = 1200}));
             }
             catch (Exception ex)
             {
@@ -54,10 +53,10 @@ namespace EvangelionERP.Test
         {
             try
             {
-                var cod = CustomerService.GetCustomers().FirstOrDefault().Cod;
-                var customer = CustomerService.GetCustomer(cod);
-                customer.LastName = "Teste Edit";
-                Assert.NotNull(CustomerService.EditCustomer(customer));
+                var cod = EmployerService.GetEmployers().FirstOrDefault().Cod;
+                var employer = EmployerService.GetEmployer(cod);
+                employer.LastName = "Teste Edit";
+                Assert.NotNull(EmployerService.EditEmployer(employer));
             }
             catch (Exception ex)
             {
@@ -69,8 +68,8 @@ namespace EvangelionERP.Test
         {
             try
             {
-                var cod = CustomerService.GetCustomers().FirstOrDefault().Cod;
-                Assert.NotNull(CustomerService.DeleteCustomer(cod));
+                var cod = EmployerService.GetEmployers().FirstOrDefault().Cod;
+                Assert.NotNull(EmployerService.DeleteEmployer(cod));
             }
             catch (Exception ex)
             {

@@ -6,6 +6,9 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EvangelionERP.Data", "EvangelionERP.Data\EvangelionERP.Data.csproj", "{5D58F0F0-A430-4B59-B378-D9A8DA564BC9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EvangelionERP.Test", "EvangelionERP.Test\EvangelionERP.Test.csproj", "{6A5EFCBA-8D1D-4E06-963A-5D5BC5520A6C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{5D58F0F0-A430-4B59-B378-D9A8DA564BC9} = {5D58F0F0-A430-4B59-B378-D9A8DA564BC9}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EvangelionERP", "EvangelionERP.Rest\EvangelionERP.csproj", "{8634BF94-F8BD-4768-B2B5-180098A0DE1C}"
 EndProject

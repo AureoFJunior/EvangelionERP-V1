@@ -21,4 +21,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\EvangelionERP.Data\EvangelionERP.Data.csproj" />
+  </ItemGroup>
+
 </Project>

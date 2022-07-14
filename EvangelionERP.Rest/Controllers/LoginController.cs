@@ -13,6 +13,8 @@ using System.Runtime.InteropServices;
 using EvangelionERP.Services;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authorization;
+using System;
+using EvangelionERP.Data.Services;
 
 namespace EvangelionERP.Controllers
 {
@@ -21,10 +23,12 @@ namespace EvangelionERP.Controllers
     public class LoginController : ControllerBase
     {
         private readonly Context _context;
+        private readonly LoginService LoginService;
 
         public LoginController([FromServices] Context userContext)
         {
             _context = userContext;
+            LoginService = new LoginService(userContext);
         }
 
         /// <summary>
@@ -34,19 +38,25 @@ namespace EvangelionERP.Controllers
         [HttpGet("users")]
         public IActionResult GetUsers()
         {
-            var userDetails = _context.UserModel.AsQueryable();
-            return Ok(userDetails);
+            try
+            {
+                var userDetails = LoginService.GetLogins();
+                return Ok(userDetails);
+            }catch (Exception ex) { return Problem(ex.Message);}
         }
 
         /// <summary>
         /// Pega o usuário que está logado.
         /// </summary>
         /// <returns></returns>
-        [HttpGet("isLogged")] //Fazer esse aqui no SERVICE
+        [HttpGet("isLogged")]
         public IActionResult GetLoggeds()
         {
-            var userDetails = _context.UserModel.AsQueryable().Where(x => x.isLogged == 1).FirstOrDefault();
-            return Ok(userDetails);
+            try
+            {
+                var userDetails = LoginService.GetLogins().Where(x => x.isLogged == 1).FirstOrDefault();
+                return Ok(userDetails);
+            }catch (Exception ex) { return Problem(ex.Message);}
         }
 
         /// <summary>
@@ -57,21 +67,22 @@ namespace EvangelionERP.Controllers
         [HttpPost("changeStatus")]
         public IActionResult ChangeStatus([FromBody] UserModel user)
         {
-            if (user == null)
+            try
             {
-                return BadRequest();
-            }
-            else
-            {
-
-                _context.Entry(user).State = EntityState.Modified;
-                _context.SaveChanges();
-
-                return Ok(new
+                if (user == null)
                 {
-                    StatusCode = 200
-                });
-            }
+                    return BadRequest();
+                }
+                else
+                {
+
+                    LoginService.EditLogin(user);
+                    return Ok(new
+                    {
+                        StatusCode = 200
+                    });
+                }
+            }catch (Exception ex) { return Problem(ex.Message); }
         }
 
         /// <summary>
@@ -82,21 +93,23 @@ namespace EvangelionERP.Controllers
         [HttpPost("signup")]
         public IActionResult Signup([FromBody] UserModel user)
         {
-            if(user == null)
+            try
             {
-                return BadRequest();
-            }
-            else
-            {
-                _context.UserModel.Add(user); 
-                _context.SaveChanges(); 
-                return Ok(
-                    new
-                    {
-                        Message = "Usuário adicionado com sucesso. ",
-                        StatusCode = 200
-                    });    
-            }
+                if (user == null)
+                {
+                    return BadRequest();
+                }
+                else
+                {
+                    LoginService.AddLogin(user);
+                    return Ok(
+                        new
+                        {
+                            Message = "Usuário adicionado com sucesso. ",
+                            StatusCode = 200
+                        });
+                }
+            }catch (Exception ex) { return Problem(ex.Message);}
         }
 
         /// <summary>
@@ -107,42 +120,46 @@ namespace EvangelionERP.Controllers
         [HttpPost("login")]
         public IActionResult Login([FromBody] UserModel user)
         {
-            if (user == null)
+            try
             {
-                return BadRequest();
-            }
-            else
-            {
-                var userLogin = _context.UserModel.Where(x => x.UserName == user.UserName && x.Password == user.Password).FirstOrDefault();
-
-                if (userLogin != null)
+                if (user == null)
                 {
-                    //Gera um token pro usuário
-                    var token = TokenHelper.GenerateToken(userLogin);
-                    var refreshToken = TokenHelper.GenerateRefreshToken();
-                    TokenHelper.SaveRefreshToken(userLogin.UserName, refreshToken);
-
-                    return Ok(new
-                    {
-                        StatusCode = 200,
-                        Message = $"Bem-vindo, {userLogin.FullName}!",
-                        UserData = user.FullName,
-                        Token = token,
-                        RefreshToken = refreshToken
-                    });
+                    return BadRequest();
                 }
                 else
                 {
-                    return NotFound(new
+                    var userLogin = LoginService.GetLogins().Where(x => x.UserName == user.UserName && x.Password == user.Password).FirstOrDefault();
+
+                    if (userLogin != null)
+                    {
+                        //Gera um token pro usuário
+                        var token = TokenHelper.GenerateToken(userLogin);
+                        var refreshToken = TokenHelper.GenerateRefreshToken();
+                        TokenHelper.SaveRefreshToken(userLogin.UserName, refreshToken);
+
+                        return Ok(new
                         {
-                        StatusCode = 404,
-                        Message = "Usuário não encontrado."
+                            StatusCode = 200,
+                            Message = $"Bem-vindo, {userLogin.FullName}!",
+                            UserData = user.FullName,
+                            Token = token,
+                            RefreshToken = refreshToken
                         });
+                    }
+                    else
+                    {
+                        return NotFound(new
+                        {
+                            StatusCode = 404,
+                            Message = "Usuário não encontrado."
+                        });
+                    }
                 }
             }
+            catch (Exception ex) { return Problem(ex.Message); }
         }
 
-        [HttpPost("refresh")] //ESSE VAI DIRETO PRO SERVICE
+    [HttpPost("refresh")]
         public IActionResult Refresh(string token, string refreshToken)
         {
             var principal = TokenHelper.GetPrincipalFromExpiredTokens(token);
@@ -163,7 +180,7 @@ namespace EvangelionERP.Controllers
             });
         }
 
-        [ApiExplorerSettings(IgnoreApi = true)] //ESSE VAI DIRETO PRO SERVICE
+        [ApiExplorerSettings(IgnoreApi = true)]
         public List<UserModel> Users()
         {
             List<UserModel> userLogin = _context.UserModel.AsQueryable().ToList();
