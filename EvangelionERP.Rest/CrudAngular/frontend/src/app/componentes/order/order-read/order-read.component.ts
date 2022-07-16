@@ -7,6 +7,7 @@ import { Financial, FinancialCharts } from '../financial.model';
 import { FinancialService } from '../financial.service';
 import { Order } from '../order.model';
 import { OrderService } from '../order.service';
+import { Chart, ChartConfiguration, ChartItem, registerables } from 'chart.js'
 
 @Component({
     selector: 'app-order-read',
@@ -17,9 +18,8 @@ import { OrderService } from '../order.service';
 export class OrderReadComponent implements OnInit {
 
     orders: Order[] = [];
-    financials: Financial[] = [];
-    financialsChart: FinancialCharts[] = [];
     displayedColumns: String[] = ['cod', 'creationDate', 'status', 'productsQuantity', 'totalValue', 'flOutput', 'action']
+    financials: Financial[] = [];
     dataSource = new MatTableDataSource<Order>()
     @ViewChild(MatPaginator)
     paginator!: MatPaginator;
@@ -35,37 +35,15 @@ export class OrderReadComponent implements OnInit {
                 this.deleteOrder(id!)
         }
 
-        this.financialsChart = this.getFinancials(this.financialsChart);
+        this.financialService.read().subscribe(financial => {
+            this.financials = financial.financialsDetails;
 
-        this.ordeService.read().subscribe(orders => {
-            this.orders = orders.financialsDetails
-            this.dataSource.data = orders.ordersDetails
-            this.dataSource.paginator = this.paginator;
+            this.ordeService.read().subscribe(orders => {
+                this.orders = orders.ordersDetails
+                this.dataSource.data = orders.ordersDetails
+                this.dataSource.paginator = this.paginator;
+            })
         })
-    }
-
-    // Pega as informações do financeiro e vai formatando pra mostrar no gráfico.
-    getFinancials(fin: FinancialCharts[]): FinancialCharts[] {
-        this.financialService.readChart().subscribe(financials => {
-            this.financials = financials.financialsDetails
-
-            let label: string[] = []
-            let months: string[] = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"]
-            let datas: number[] = []
-
-            this.financials.forEach(function (value) {
-                let year = new Date(value.inclusionDate).getFullYear()
-                let month = new Date(value.inclusionDate).getMonth()
-                let day = new Date(value.inclusionDate).getDate()
-
-                label.push(`${months[month]}/${year}`)
-                datas.push(value.totalValue)
-            });
-
-            var chart: FinancialCharts = { label: label, data: datas, tension: 0.5 };
-            fin.push(chart);
-        });
-        return fin;
     }
 
     deleteOrder(cod: string): void {

@@ -18,15 +18,19 @@
     padding: 10px;
     background-color: #1b1e1f;
 }
-/*
-.home {
-    margin-top: -40px;
-}
-*/
+
 .home .title .subtitle {
     margin-top: -50px;
 }
 
 .home .title .subtitle {
     background-color: #1b1e1f;
+}
+
+#sales-chart {
+    color: aliceblue;
+}
+
+.mainTitle {
+    color: white;
 }

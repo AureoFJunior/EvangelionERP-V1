@@ -5,7 +5,10 @@ export interface Financial {
 }
 
 export class FinancialCharts {
-    label: string[] = [];
+    label: string = "";
     data: number[] = [];
-    tension: number = 0;
+    backgroundColor: string = '#F69D43';
+    tension: number = 0.2;
+    borderColor: string = '#F69D43';
+    color: string = '#FFFFFF';
 }

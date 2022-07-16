@@ -54,7 +54,7 @@ namespace EvangelionERP.Data.Repositorys
         {
             try
             {
-                return GetAll();
+                return GetAll().OrderByDescending(x => x.Cod).ToList();
             }
             catch (Exception ex) { throw ex.InnerException; };
         }

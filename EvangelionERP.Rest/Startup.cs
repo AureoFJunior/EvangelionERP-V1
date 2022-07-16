@@ -66,7 +66,6 @@ namespace EvangelionERP
                 c.IncludeXmlComments(xmlPath);
             });
             services.AddDbContext<Context>(opt => opt.UseSqlServer(Configuration["DefaultConnectionStrings"]));
-            services.AddSingleton<Context>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
